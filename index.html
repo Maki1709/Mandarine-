@@ -1,0 +1,2707 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Restaurant Mandarine — Asian Fusion Cuisine in Hobscheid, Luxembourg.">
+<meta name="theme-color" content="#11110f">
+<title>Restaurant Mandarine — Asian Fusion</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --black:#11110f;
+    --dark:#181815;
+    --cream:#f3efe7;
+    --paper:#faf8f3;
+    --muted:#9b988f;
+    --line:rgba(255,255,255,.12);
+    --dark-line:rgba(17,17,15,.13);
+    --accent:#b68b55;
+    --accent-light:#d1ae7d;
+    --white:#fff;
+    --serif:"Playfair Display",Georgia,serif;
+    --sans:"DM Sans",Arial,sans-serif;
+    --max:1380px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--paper);
+    color:var(--black);
+    font-family:var(--sans);
+    overflow-x:hidden;
+}
+
+body.menu-open{
+    overflow:hidden;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button{
+    font:inherit;
+}
+
+img{
+    width:100%;
+    display:block;
+    object-fit:cover;
+}
+
+::selection{
+    background:var(--black);
+    color:var(--cream);
+}
+
+/* LOADER */
+
+.loader{
+    position:fixed;
+    inset:0;
+    background:var(--black);
+    color:var(--cream);
+    z-index:9999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:opacity .8s ease,visibility .8s ease;
+}
+
+.loader.hide{
+    opacity:0;
+    visibility:hidden;
+}
+
+.loader-inner{
+    text-align:center;
+}
+
+.loader-mark{
+    font-family:var(--serif);
+    font-size:2rem;
+    letter-spacing:.08em;
+    margin-bottom:18px;
+}
+
+.loader-line{
+    width:120px;
+    height:1px;
+    background:rgba(255,255,255,.25);
+    overflow:hidden;
+}
+
+.loader-line span{
+    display:block;
+    width:0;
+    height:100%;
+    background:var(--accent-light);
+    animation:loading 1.5s ease forwards;
+}
+
+@keyframes loading{
+    to{width:100%}
+}
+
+/* HEADER */
+
+header{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    z-index:100;
+    color:white;
+    padding:26px 5vw;
+    transition:.4s ease;
+}
+
+header.scrolled{
+    position:fixed;
+    background:rgba(17,17,15,.94);
+    backdrop-filter:blur(16px);
+    padding:17px 5vw;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.nav{
+    max-width:var(--max);
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    display:flex;
+    flex-direction:column;
+    line-height:1;
+}
+
+.logo-main{
+    font-family:var(--serif);
+    font-size:1.45rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+}
+
+.logo-sub{
+    font-size:.55rem;
+    letter-spacing:.35em;
+    margin-top:7px;
+    opacity:.65;
+    text-transform:uppercase;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:34px;
+    font-size:.76rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+
+.nav-links a{
+    position:relative;
+    opacity:.88;
+}
+
+.nav-links a:after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-7px;
+    width:0;
+    height:1px;
+    background:var(--accent-light);
+    transition:.35s;
+}
+
+.nav-links a:hover:after{
+    width:100%;
+}
+
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.lang-switch{
+    position:relative;
+}
+
+.lang-btn{
+    border:0;
+    background:transparent;
+    color:white;
+    cursor:pointer;
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    padding:8px;
+}
+
+.lang-menu{
+    position:absolute;
+    right:0;
+    top:38px;
+    background:#f7f4ed;
+    color:#111;
+    min-width:100px;
+    padding:7px;
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(-5px);
+    transition:.25s;
+    box-shadow:0 15px 35px rgba(0,0,0,.18);
+}
+
+.lang-switch:hover .lang-menu,
+.lang-switch:focus-within .lang-menu{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+}
+
+.lang-menu button{
+    display:block;
+    width:100%;
+    border:0;
+    background:transparent;
+    padding:9px;
+    cursor:pointer;
+    font-size:.7rem;
+    text-align:left;
+}
+
+.lang-menu button:hover{
+    background:#eae6dc;
+}
+
+.reserve-btn{
+    border:1px solid rgba(255,255,255,.65);
+    padding:12px 18px;
+    font-size:.68rem;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    transition:.3s;
+}
+
+.reserve-btn:hover{
+    background:white;
+    color:#111;
+}
+
+.mobile-toggle{
+    display:none;
+    width:38px;
+    height:38px;
+    border:1px solid rgba(255,255,255,.35);
+    background:transparent;
+    color:white;
+    cursor:pointer;
+}
+
+.mobile-toggle span{
+    display:block;
+    width:17px;
+    height:1px;
+    background:white;
+    margin:4px auto;
+}
+
+/* HERO */
+
+.hero{
+    height:100svh;
+    min-height:680px;
+    position:relative;
+    background:#171715;
+    color:white;
+    overflow:hidden;
+}
+
+.hero-media{
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(90deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,.35) 48%,rgba(0,0,0,.25) 100%),
+      linear-gradient(0deg,rgba(0,0,0,.48),transparent 45%),
+      url("https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=2400&q=90")
+      center/cover;
+    transform:scale(1.04);
+    animation:heroZoom 12s ease-out forwards;
+}
+
+@keyframes heroZoom{
+    to{transform:scale(1)}
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    height:100%;
+    max-width:var(--max);
+    margin:auto;
+    padding:0 5vw;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-start;
+}
+
+.hero-kicker{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    text-transform:uppercase;
+    letter-spacing:.28em;
+    font-size:.67rem;
+    margin-bottom:25px;
+    opacity:.8;
+}
+
+.hero-kicker span{
+    width:42px;
+    height:1px;
+    background:var(--accent-light);
+}
+
+.hero h1{
+    font-family:var(--serif);
+    font-size:clamp(4rem,9vw,8.5rem);
+    line-height:.87;
+    font-weight:400;
+    letter-spacing:-.045em;
+    max-width:850px;
+}
+
+.hero h1 em{
+    font-style:italic;
+    color:#e0c39a;
+}
+
+.hero-description{
+    margin-top:32px;
+    max-width:510px;
+    color:rgba(255,255,255,.76);
+    line-height:1.8;
+    font-size:.93rem;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:13px;
+    margin-top:34px;
+}
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:48px;
+    padding:0 25px;
+    border:1px solid rgba(255,255,255,.65);
+    text-transform:uppercase;
+    letter-spacing:.15em;
+    font-size:.66rem;
+    transition:.35s;
+}
+
+.btn-primary{
+    background:white;
+    color:#111;
+    border-color:white;
+}
+
+.btn-primary:hover{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:white;
+}
+
+.btn-outline:hover{
+    background:white;
+    color:#111;
+}
+
+.hero-bottom{
+    position:absolute;
+    z-index:3;
+    left:5vw;
+    right:5vw;
+    bottom:30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    color:rgba(255,255,255,.62);
+    font-size:.66rem;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+}
+
+.scroll-indicator{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.scroll-line{
+    width:48px;
+    height:1px;
+    background:rgba(255,255,255,.45);
+}
+
+/* INTRO */
+
+.intro{
+    padding:145px 5vw 135px;
+    background:var(--paper);
+}
+
+.intro-grid{
+    max-width:var(--max);
+    margin:auto;
+    display:grid;
+    grid-template-columns:1fr 1.35fr;
+    gap:12vw;
+    align-items:start;
+}
+
+.section-number{
+    font-size:.65rem;
+    letter-spacing:.2em;
+    color:#8c887f;
+    text-transform:uppercase;
+}
+
+.intro h2,
+.story h2,
+.experience h2{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(2.7rem,5vw,5.2rem);
+    line-height:1.02;
+    letter-spacing:-.035em;
+}
+
+.intro h2{
+    margin-top:22px;
+}
+
+.intro-copy{
+    font-size:1.03rem;
+    line-height:1.95;
+    color:#5f5d56;
+    max-width:640px;
+}
+
+.intro-copy p+p{
+    margin-top:23px;
+}
+
+.small-rule{
+    width:55px;
+    height:1px;
+    background:var(--accent);
+    margin:34px 0;
+}
+
+/* IMAGE SPLIT */
+
+.image-split{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    min-height:680px;
+}
+
+.image-split-main{
+    min-height:680px;
+    background:url("https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1800&q=88") center/cover;
+}
+
+.image-split-side{
+    background:var(--black);
+    color:var(--cream);
+    display:flex;
+    align-items:center;
+    padding:10vw;
+}
+
+.image-split-side h3{
+    font-family:var(--serif);
+    font-size:clamp(2.2rem,4vw,4rem);
+    line-height:1.05;
+    font-weight:400;
+}
+
+.image-split-side p{
+    color:#aaa79e;
+    line-height:1.8;
+    margin-top:25px;
+    max-width:420px;
+}
+
+.text-link{
+    display:inline-flex;
+    align-items:center;
+    gap:15px;
+    margin-top:32px;
+    font-size:.68rem;
+    text-transform:uppercase;
+    letter-spacing:.17em;
+    padding-bottom:9px;
+    border-bottom:1px solid rgba(255,255,255,.35);
+}
+
+.text-link span{
+    transition:.3s;
+}
+
+.text-link:hover span{
+    transform:translateX(7px);
+}
+
+/* MENU */
+
+.menu-section{
+    padding:145px 5vw;
+    background:#f1eee7;
+}
+
+.menu-inner{
+    max-width:var(--max);
+    margin:auto;
+}
+
+.menu-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:30px;
+    margin-bottom:75px;
+}
+
+.menu-header h2{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(3rem,6vw,6rem);
+    line-height:.9;
+}
+
+.menu-intro{
+    max-width:400px;
+    color:#69665e;
+    line-height:1.7;
+    font-size:.9rem;
+}
+
+.menu-category{
+    border-top:1px solid var(--dark-line);
+}
+
+.category-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:24px 0;
+    cursor:pointer;
+}
+
+.category-title{
+    font-family:var(--serif);
+    font-size:1.7rem;
+}
+
+.category-icon{
+    font-size:1.3rem;
+    font-weight:300;
+    transition:.4s;
+}
+
+.menu-category.open .category-icon{
+    transform:rotate(45deg);
+}
+
+.menu-items{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    column-gap:9vw;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .6s ease;
+}
+
+.menu-category.open .menu-items{
+    max-height:1000px;
+}
+
+.menu-item{
+    padding:21px 0 27px;
+    border-top:1px solid rgba(17,17,15,.08);
+}
+
+.item-top{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    font-family:var(--serif);
+    font-size:1.15rem;
+}
+
+.item-price{
+    color:#80796e;
+    white-space:nowrap;
+    font-family:var(--sans);
+    font-size:.8rem;
+}
+
+.item-description{
+    margin-top:8px;
+    color:#7c7971;
+    font-size:.75rem;
+    line-height:1.6;
+    max-width:430px;
+}
+
+/* EXPERIENCE */
+
+.experience{
+    padding:150px 5vw;
+    background:var(--black);
+    color:var(--cream);
+}
+
+.experience-grid{
+    max-width:var(--max);
+    margin:auto;
+}
+
+.experience-top{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10vw;
+    align-items:end;
+}
+
+.experience h2{
+    color:#f2eee6;
+}
+
+.experience-copy{
+    color:#aaa69c;
+    line-height:1.9;
+    max-width:500px;
+}
+
+.experience-cards{
+    margin-top:80px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--line);
+}
+
+.experience-card{
+    padding:45px 35px 35px 0;
+    border-right:1px solid var(--line);
+    margin-right:35px;
+}
+
+.experience-card:last-child{
+    border-right:0;
+    margin-right:0;
+}
+
+.card-number{
+    font-size:.65rem;
+    color:var(--accent-light);
+    letter-spacing:.15em;
+}
+
+.experience-card h3{
+    font-family:var(--serif);
+    font-size:1.75rem;
+    font-weight:400;
+    margin:28px 0 14px;
+}
+
+.experience-card p{
+    color:#97948c;
+    line-height:1.75;
+    font-size:.84rem;
+}
+
+/* STORY */
+
+.story{
+    padding:150px 5vw;
+    background:var(--paper);
+}
+
+.story-grid{
+    max-width:var(--max);
+    margin:auto;
+    display:grid;
+    grid-template-columns:.85fr 1.15fr;
+    gap:10vw;
+    align-items:center;
+}
+
+.story-image{
+    min-height:720px;
+    background:url("https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=1500&q=88") center/cover;
+}
+
+.story-content h2{
+    margin-top:22px;
+}
+
+.story-content p{
+    margin-top:28px;
+    max-width:570px;
+    color:#65625a;
+    line-height:1.95;
+}
+
+.story-signature{
+    margin-top:50px;
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:1.5rem;
+}
+
+/* GALLERY */
+
+.gallery{
+    background:#e9e5dc;
+    padding:120px 5vw;
+}
+
+.gallery-header{
+    max-width:var(--max);
+    margin:0 auto 55px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+}
+
+.gallery-header h2{
+    font-family:var(--serif);
+    font-size:clamp(3rem,6vw,6rem);
+    font-weight:400;
+    line-height:.9;
+}
+
+.gallery-header p{
+    color:#77736b;
+    max-width:330px;
+    line-height:1.7;
+    font-size:.85rem;
+}
+
+.gallery-grid{
+    max-width:var(--max);
+    margin:auto;
+    display:grid;
+    grid-template-columns:1.2fr .8fr .8fr;
+    grid-template-rows:330px 330px;
+    gap:12px;
+}
+
+.gallery-item{
+    overflow:hidden;
+    position:relative;
+}
+
+.gallery-item img{
+    height:100%;
+    transition:transform .8s cubic-bezier(.2,.7,.2,1);
+}
+
+.gallery-item:hover img{
+    transform:scale(1.045);
+}
+
+.gallery-item:first-child{
+    grid-row:span 2;
+}
+
+.gallery-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(transparent 50%,rgba(0,0,0,.4));
+    opacity:0;
+    transition:.4s;
+}
+
+.gallery-item:hover .gallery-overlay{
+    opacity:1;
+}
+
+/* REVIEWS */
+
+.reviews{
+    padding:150px 5vw;
+    background:var(--paper);
+}
+
+.reviews-inner{
+    max-width:var(--max);
+    margin:auto;
+}
+
+.reviews-heading{
+    text-align:center;
+}
+
+.rating{
+    font-size:.7rem;
+    letter-spacing:.18em;
+    color:#77736b;
+    text-transform:uppercase;
+}
+
+.rating strong{
+    color:#111;
+    font-size:1.05rem;
+}
+
+.reviews-heading h2{
+    font-family:var(--serif);
+    font-size:clamp(3rem,6vw,6rem);
+    font-weight:400;
+    line-height:.95;
+    margin-top:18px;
+}
+
+.review-slider{
+    margin-top:75px;
+    position:relative;
+    min-height:270px;
+}
+
+.review{
+    display:none;
+    text-align:center;
+    max-width:850px;
+    margin:auto;
+}
+
+.review.active{
+    display:block;
+    animation:fadeReview .6s ease;
+}
+
+@keyframes fadeReview{
+    from{opacity:0;transform:translateY(10px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+.quote{
+    font-family:var(--serif);
+    font-size:clamp(1.6rem,3vw,2.55rem);
+    line-height:1.35;
+}
+
+.reviewer{
+    margin-top:28px;
+    color:#77736b;
+    font-size:.72rem;
+    text-transform:uppercase;
+    letter-spacing:.17em;
+}
+
+.review-controls{
+    display:flex;
+    justify-content:center;
+    gap:9px;
+    margin-top:25px;
+}
+
+.review-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    border:0;
+    background:#c6c2ba;
+    cursor:pointer;
+}
+
+.review-dot.active{
+    background:#171715;
+}
+
+/* RESERVATION */
+
+.reservation{
+    background:var(--black);
+    color:var(--cream);
+    padding:145px 5vw;
+}
+
+.reservation-grid{
+    max-width:var(--max);
+    margin:auto;
+    display:grid;
+    grid-template-columns:.9fr 1.1fr;
+    gap:10vw;
+}
+
+.reservation h2{
+    font-family:var(--serif);
+    font-size:clamp(3rem,6vw,6rem);
+    font-weight:400;
+    line-height:.92;
+}
+
+.reservation-copy{
+    color:#aaa69c;
+    line-height:1.8;
+    margin-top:28px;
+    max-width:430px;
+}
+
+.contact-details{
+    margin-top:45px;
+}
+
+.contact-line{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    padding:17px 0;
+    border-top:1px solid var(--line);
+}
+
+.contact-line:last-child{
+    border-bottom:1px solid var(--line);
+}
+
+.contact-label{
+    font-size:.62rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:#7e7b73;
+}
+
+.contact-value{
+    font-size:.88rem;
+}
+
+.reservation-form{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+}
+
+.form-field{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+}
+
+.form-field.full{
+    grid-column:1/-1;
+}
+
+.form-field label{
+    color:#8d8981;
+    font-size:.64rem;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea{
+    width:100%;
+    border:0;
+    border-bottom:1px solid #45443f;
+    background:transparent;
+    color:var(--cream);
+    padding:13px 0;
+    outline:none;
+    border-radius:0;
+    font-family:var(--sans);
+    transition:.3s;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus{
+    border-color:var(--accent-light);
+}
+
+.form-field select option{
+    background:#181815;
+}
+
+.form-field textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.form-submit{
+    grid-column:1/-1;
+    margin-top:20px;
+    border:1px solid rgba(255,255,255,.5);
+    background:var(--cream);
+    color:#111;
+    min-height:55px;
+    cursor:pointer;
+    text-transform:uppercase;
+    letter-spacing:.17em;
+    font-size:.67rem;
+    transition:.35s;
+}
+
+.form-submit:hover{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:white;
+}
+
+/* LOCATION */
+
+.location{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    min-height:560px;
+}
+
+.map{
+    min-height:560px;
+    background:
+      linear-gradient(rgba(225,220,210,.55),rgba(225,220,210,.55)),
+      url("https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1600&q=85")
+      center/cover;
+    filter:grayscale(.7);
+}
+
+.location-content{
+    background:#e6e1d7;
+    padding:100px 9vw;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.location-content .section-number{
+    color:#7b766d;
+}
+
+.location-content h2{
+    font-family:var(--serif);
+    font-size:clamp(3rem,5vw,5rem);
+    font-weight:400;
+    line-height:.95;
+    margin:22px 0 30px;
+}
+
+.address{
+    color:#68645d;
+    line-height:1.8;
+    font-size:.9rem;
+}
+
+.location-links{
+    display:flex;
+    gap:25px;
+    margin-top:32px;
+}
+
+.location-links a{
+    font-size:.67rem;
+    text-transform:uppercase;
+    letter-spacing:.15em;
+    border-bottom:1px solid #77736b;
+    padding-bottom:7px;
+}
+
+/* FOOTER */
+
+footer{
+    background:#11110f;
+    color:#aaa79f;
+    padding:80px 5vw 35px;
+}
+
+.footer-grid{
+    max-width:var(--max);
+    margin:auto;
+    display:grid;
+    grid-template-columns:1.5fr 1fr 1fr 1fr;
+    gap:60px;
+    padding-bottom:75px;
+}
+
+.footer-brand{
+    color:white;
+}
+
+.footer-brand .logo-main{
+    font-size:1.8rem;
+}
+
+.footer-brand p{
+    max-width:300px;
+    line-height:1.8;
+    margin-top:23px;
+    color:#85827b;
+    font-size:.82rem;
+}
+
+.footer-title{
+    color:#eeeae2;
+    font-size:.65rem;
+    text-transform:uppercase;
+    letter-spacing:.17em;
+    margin-bottom:20px;
+}
+
+.footer-column a,
+.footer-column span{
+    display:block;
+    color:#85827b;
+    font-size:.78rem;
+    margin:10px 0;
+}
+
+.footer-column a:hover{
+    color:white;
+}
+
+.footer-bottom{
+    max-width:var(--max);
+    margin:auto;
+    padding-top:25px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    font-size:.62rem;
+    color:#68665f;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+}
+
+/* REVEAL */
+
+.reveal{
+    opacity:0;
+    transform:translateY(35px);
+    transition:opacity .9s ease,transform .9s ease;
+}
+
+.reveal.visible{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* MOBILE */
+
+@media(max-width:1000px){
+    .nav-links{
+        gap:18px;
+    }
+
+    .intro-grid,
+    .story-grid,
+    .reservation-grid{
+        gap:60px;
+    }
+
+    .experience-cards{
+        grid-template-columns:1fr;
+    }
+
+    .experience-card{
+        border-right:0;
+        border-bottom:1px solid var(--line);
+        margin-right:0;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:760px){
+
+    header{
+        padding:20px 5vw;
+    }
+
+    header.scrolled{
+        padding:16px 5vw;
+    }
+
+    .nav-links,
+    .header-actions .reserve-btn{
+        display:none;
+    }
+
+    .mobile-toggle{
+        display:block;
+    }
+
+    .mobile-nav{
+        position:fixed;
+        inset:0;
+        z-index:-1;
+        background:#11110f;
+        padding:120px 8vw 50px;
+        opacity:0;
+        visibility:hidden;
+        transition:.4s;
+    }
+
+    .mobile-nav.open{
+        opacity:1;
+        visibility:visible;
+    }
+
+    .mobile-nav a{
+        display:block;
+        color:white;
+        font-family:var(--serif);
+        font-size:2.6rem;
+        margin:20px 0;
+    }
+
+    .hero{
+        min-height:650px;
+    }
+
+    .hero h1{
+        font-size:clamp(3.7rem,17vw,6rem);
+    }
+
+    .hero-description{
+        font-size:.84rem;
+    }
+
+    .hero-bottom{
+        bottom:20px;
+    }
+
+    .hero-bottom .address-small{
+        display:none;
+    }
+
+    .intro{
+        padding:90px 7vw;
+    }
+
+    .intro-grid{
+        grid-template-columns:1fr;
+        gap:55px;
+    }
+
+    .image-split{
+        grid-template-columns:1fr;
+    }
+
+    .image-split-main{
+        min-height:450px;
+    }
+
+    .image-split-side{
+        min-height:500px;
+        padding:70px 8vw;
+    }
+
+    .menu-section,
+    .experience,
+    .story,
+    .reviews,
+    .reservation{
+        padding:90px 7vw;
+    }
+
+    .menu-header,
+    .gallery-header{
+        display:block;
+        margin-bottom:45px;
+    }
+
+    .menu-intro,
+    .gallery-header p{
+        margin-top:25px;
+    }
+
+    .menu-items{
+        grid-template-columns:1fr;
+    }
+
+    .story-grid,
+    .reservation-grid{
+        grid-template-columns:1fr;
+    }
+
+    .story-image{
+        min-height:500px;
+    }
+
+    .experience-top{
+        grid-template-columns:1fr;
+        gap:30px;
+    }
+
+    .experience-cards{
+        margin-top:55px;
+    }
+
+    .gallery{
+        padding:80px 5vw;
+    }
+
+    .gallery-grid{
+        grid-template-columns:1fr 1fr;
+        grid-template-rows:250px 250px 250px;
+    }
+
+    .gallery-item:first-child{
+        grid-column:span 2;
+        grid-row:span 1;
+    }
+
+    .reservation-form{
+        grid-template-columns:1fr;
+    }
+
+    .form-field.full,
+    .form-submit{
+        grid-column:auto;
+    }
+
+    .location{
+        grid-template-columns:1fr;
+    }
+
+    .map{
+        min-height:360px;
+    }
+
+    .location-content{
+        padding:80px 8vw;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+        gap:40px;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+    }
+}
+
+/* ACCESSIBILITY */
+
+@media(prefers-reduced-motion:reduce){
+    *,
+    *::before,
+    *::after{
+        scroll-behavior:auto!important;
+        animation-duration:.01ms!important;
+        transition-duration:.01ms!important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+    <div class="loader-inner">
+        <div class="loader-mark">MANDARINE</div>
+        <div class="loader-line"><span></span></div>
+    </div>
+</div>
+
+<!-- HEADER -->
+<header id="header">
+    <nav class="nav">
+
+        <a href="#home" class="logo">
+            <span class="logo-main">Mandarine</span>
+            <span class="logo-sub">Asian Fusion · Hobscheid</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="#restaurant" data-i18n="nav_about">Restaurant</a>
+            <a href="#menu" data-i18n="nav_menu">Menu</a>
+            <a href="#experience" data-i18n="nav_experience">Expérience</a>
+            <a href="#gallery" data-i18n="nav_gallery">Galerie</a>
+            <a href="#contact" data-i18n="nav_contact">Contact</a>
+        </div>
+
+        <div class="header-actions">
+
+            <div class="lang-switch">
+                <button class="lang-btn" aria-label="Language">FR ▾</button>
+                <div class="lang-menu">
+                    <button onclick="setLanguage('fr')">Français</button>
+                    <button onclick="setLanguage('en')">English</button>
+                    <button onclick="setLanguage('de')">Deutsch</button>
+                </div>
+            </div>
+
+            <a href="#reservation" class="reserve-btn" data-i18n="reserve">Réserver</a>
+
+            <button class="mobile-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="mobile-nav" id="mobileNav">
+        <a href="#restaurant" data-i18n="nav_about">Restaurant</a>
+        <a href="#menu" data-i18n="nav_menu">Menu</a>
+        <a href="#experience" data-i18n="nav_experience">Expérience</a>
+        <a href="#gallery" data-i18n="nav_gallery">Galerie</a>
+        <a href="#reservation" data-i18n="reserve">Réserver</a>
+        <a href="#contact" data-i18n="nav_contact">Contact</a>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+
+    <div class="hero-media"></div>
+
+    <div class="hero-content">
+
+        <div class="hero-kicker">
+            <span></span>
+            <div data-i18n="hero_kicker">Asian Fusion · Hobscheid · Luxembourg</div>
+        </div>
+
+        <h1>
+            <span data-i18n="hero_title_1">Une cuisine</span><br>
+            <em data-i18n="hero_title_2">qui rassemble.</em>
+        </h1>
+
+        <p class="hero-description" data-i18n="hero_description">
+            Une rencontre entre les saveurs asiatiques, la fraîcheur des produits et une approche contemporaine de la cuisine.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#reservation" class="btn btn-primary" data-i18n="hero_button_1">Réserver une table</a>
+            <a href="#menu" class="btn btn-outline" data-i18n="hero_button_2">Découvrir le menu</a>
+        </div>
+
+    </div>
+
+    <div class="hero-bottom">
+        <div class="address-small">4 Rue de Kreuzerbuch · 8370 Hobscheid</div>
+
+        <div class="scroll-indicator">
+            <div data-i18n="scroll">Découvrir</div>
+            <div class="scroll-line"></div>
+        </div>
+    </div>
+
+</section>
+
+<!-- INTRO -->
+<section class="intro" id="restaurant">
+
+    <div class="intro-grid">
+
+        <div class="reveal">
+            <div class="section-number">01 / <span data-i18n="section_restaurant">Restaurant</span></div>
+
+            <h2 data-i18n="intro_title">
+                Des influences.<br>
+                Une identité.
+            </h2>
+        </div>
+
+        <div class="intro-copy reveal">
+
+            <p data-i18n="intro_p1">
+                Bienvenue chez Mandarine, un restaurant d'inspiration asiatique installé au cœur de Hobscheid.
+            </p>
+
+            <p data-i18n="intro_p2">
+                Notre cuisine puise dans plusieurs traditions asiatiques pour créer une expérience généreuse, fraîche et actuelle. Des assiettes pensées pour être découvertes, partagées et appréciées ensemble.
+            </p>
+
+            <div class="small-rule"></div>
+
+            <p data-i18n="intro_p3">
+                Du sushi aux plats chauds, chaque proposition cherche l'équilibre entre caractère, fraîcheur et simplicité.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- IMAGE SPLIT -->
+<section class="image-split">
+
+    <div class="image-split-main"></div>
+
+    <div class="image-split-side">
+        <div class="reveal">
+
+            <div class="section-number">02 / Philosophy</div>
+
+            <h3 data-i18n="split_title">
+                L'Asie,<br>
+                autrement.
+            </h3>
+
+            <p data-i18n="split_text">
+                Des produits frais, des textures contrastées et des saveurs soigneusement équilibrées. Mandarine propose une cuisine qui respecte ses inspirations tout en laissant place à une expression contemporaine.
+            </p>
+
+            <a href="#menu" class="text-link">
+                <span data-i18n="discover_menu">Découvrir notre carte</span>
+                <span>→</span>
+            </a>
+
+        </div>
+    </div>
+
+</section>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+
+    <div class="menu-inner">
+
+        <div class="menu-header reveal">
+
+            <div>
+                <div class="section-number">03 / <span data-i18n="section_menu">La carte</span></div>
+                <h2 data-i18n="menu_title">À table.</h2>
+            </div>
+
+            <p class="menu-intro" data-i18n="menu_intro">
+                Une sélection inspirée de la cuisine asiatique, entre classiques appréciés et créations pensées pour le partage.
+            </p>
+
+        </div>
+
+        <!-- CATEGORY 1 -->
+        <div class="menu-category open">
+
+            <div class="category-head">
+                <div class="category-title" data-i18n="cat_starters">Entrées & à partager</div>
+                <div class="category-icon">+</div>
+            </div>
+
+            <div class="menu-items">
+
+                <div class="menu-item">
+                    <div class="item-top">
+                        <span>Poulet Noix de Cajou</span>
+                        <span class="item-price">—</span>
+                    </div>
+                    <div class="item-description" data-i18n="dish_1">Poulet tendre, noix de cajou et légumes croquants.</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-top">
+                        <span>Gyoza</span>
+                        <span class="item-price">—</span>
+                    </div>
+                    <div class="item-description" data-i18n="dish_2">Raviolis japonais servis avec une sauce maison.</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-top">
+                        <span>Edamame</span>
+                        <span class="item-price">—</span>
+                    </div>
+                    <div class="item-description" data-i18n="dish_3">Fèves de soja délicatement assaisonnées.</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-top">
+                        <span>Tempura</span>
+                        <span class="item-price">—</span>
+                    </div>
+                    <div class="item-description" data-i18n="dish_4">Légumes et produits sélectionnés dans une pâte légère.</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- CATEGORY 2 -->
+        <div class="menu-category">
+
+            <div class="category-head">
+                <div class="category-title" data-i18n="cat_sushi">Sushi & Sashimi</div>
+                <div class="category-icon">+</div>
+            </div>
+
+            <div class="menu-items">
+
+                <div class="menu-item">
+                    <div class="item-top">
+                        <span>Plateau Sashimi</span>
+                        <span class="item-price">—</span>
+                    </div>
+                    <div class="item-description" data-i18n="dish_5">Une sélection de poissons frais préparés minute.</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-top">
+                        <span>Selection Sushi</span>
+                        <span class="item-price">—</span>
+                    </div>
+                    <div class="item-description" data-i18n="dish_6">Une sélection variée pour découvrir plusieurs textures.</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-top">
+                        <span>Maki Selection</span>
+                        <span class="item-price">—</span>
+                    </div>
+                    <div class="item-description" data-i18n="dish_7">Rouleaux préparés avec différentes associations.</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-top">
+                        <span>Sushi du moment</span>
+                        <span class="item-price">—</span>
+                    </div>
+                    <div class="item-description" data-i18n="dish_8">Selon les arrivages et l'inspiration de la cuisine.</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- CATEGORY 3 -->
+        <div class="menu-category">
+
+            <div class="category-head">
+                <div class="category-title" data-i18n="cat_main">Plats</div>
+                <div class="category-icon">+</div>
+            </div>
+
+            <div class="menu-items">
+
+                <div class="menu-item">
+                    <div class="item-top">
+                        <span>Sole Grillée</span>
+                        <span class="item-price">—</span>
+                    </div>
+                    <div class="item-description" data-i18n="dish_9">Sole grillée au beurre façon du chef.</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-top">
+                        <span>Wok de Légumes</span>
+                        <span class="item-price">—</span>
+                    </div>
+                    <div class="item-description" data-i18n="dish_10">Légumes frais sautés au wok.</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-top">
+                        <span>Noodles</span>
+                        <span class="item-price">—</span>
+                    </div>
+                    <div class="item-description" data-i18n="dish_11">Nouilles sautées avec légumes et choix de protéines.</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-top">
+                        <span>Soba</span>
+                        <span class="item-price">—</span>
+                    </div>
+                    <div class="item-description" data-i18n="dish_12">Nouilles soba accompagnées d'ingrédients de saison.</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- CATEGORY 4 -->
+        <div class="menu-category">
+
+            <div class="category-head">
+                <div class="category-title" data-i18n="cat_dessert">Desserts</div>
+                <div class="category-icon">+</div>
+            </div>
+
+            <div class="menu-items">
+
+                <div class="menu-item">
+                    <div class="item-top">
+                        <span>Dessert Mandarine</span>
+                        <span class="item-price">—</span>
+                    </div>
+                    <div class="item-description" data-i18n="dish_13">Une note fraîche et légère pour terminer le repas.</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-top">
+                        <span>Selection du Chef</span>
+                        <span class="item-price">—</span>
+                    </div>
+                    <div class="item-description" data-i18n="dish_14">Demandez à notre équipe les suggestions du moment.</div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+
+    <div class="experience-grid">
+
+        <div class="experience-top">
+
+            <div class="reveal">
+                <div class="section-number">04 / Experience</div>
+
+                <h2 data-i18n="experience_title">
+                    Plus qu'un<br>
+                    repas.
+                </h2>
+            </div>
+
+            <p class="experience-copy reveal" data-i18n="experience_copy">
+                Chez Mandarine, nous voulons créer un moment qui dépasse l'assiette. Une atmosphère contemporaine, un service attentif et une cuisine faite pour être appréciée sans précipitation.
+            </p>
+
+        </div>
+
+        <div class="experience-cards">
+
+            <div class="experience-card reveal">
+                <div class="card-number">01</div>
+                <h3 data-i18n="card_1_title">Fraîcheur</h3>
+                <p data-i18n="card_1_text">
+                    Des ingrédients sélectionnés pour préserver les saveurs, les textures et la qualité de chaque assiette.
+                </p>
+            </div>
+
+            <div class="experience-card reveal">
+                <div class="card-number">02</div>
+                <h3 data-i18n="card_2_title">Partage</h3>
+                <p data-i18n="card_2_text">
+                    Une carte pensée pour découvrir plusieurs préparations autour de la table.
+                </p>
+            </div>
+
+            <div class="experience-card reveal">
+                <div class="card-number">03</div>
+                <h3 data-i18n="card_3_title">Accueil</h3>
+                <p data-i18n="card_3_text">
+                    Une équipe présente pour vous accompagner et rendre votre visite agréable du début à la fin.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- STORY -->
+<section class="story">
+
+    <div class="story-grid">
+
+        <div class="story-image reveal"></div>
+
+        <div class="story-content reveal">
+
+            <div class="section-number">05 / <span data-i18n="section_story">Notre approche</span></div>
+
+            <h2 data-i18n="story_title">
+                Entre tradition<br>
+                et mouvement.
+            </h2>
+
+            <p data-i18n="story_p1">
+                La cuisine asiatique possède une richesse immense : des produits bruts, des cuissons précises, des sauces complexes et des contrastes de textures.
+            </p>
+
+            <p data-i18n="story_p2">
+                Mandarine s'inspire de cette diversité pour proposer une expérience accessible, élégante et vivante. L'objectif n'est pas de compliquer les choses, mais de faire ressortir ce qui compte.
+            </p>
+
+            <div class="story-signature">
+                Mandarine
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+
+    <div class="gallery-header reveal">
+
+        <div>
+            <div class="section-number">06 / <span data-i18n="section_gallery">Galerie</span></div>
+            <h2 data-i18n="gallery_title">À voir.<br>À goûter.</h2>
+        </div>
+
+        <p data-i18n="gallery_text">
+            Découvrez l'univers de Mandarine, de la salle aux assiettes.
+        </p>
+
+    </div>
+
+    <div class="gallery-grid">
+
+        <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?auto=format&fit=crop&w=1400&q=85" alt="Sushi">
+            <div class="gallery-overlay"></div>
+        </div>
+
+        <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?auto=format&fit=crop&w=1000&q=85" alt="Asian cuisine">
+            <div class="gallery-overlay"></div>
+        </div>
+
+        <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=85" alt="Restaurant interior">
+            <div class="gallery-overlay"></div>
+        </div>
+
+        <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=1000&q=85" alt="Asian dish">
+            <div class="gallery-overlay"></div>
+        </div>
+
+        <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1562967916-eb82221dfb92?auto=format&fit=crop&w=1000&q=85" alt="Asian food">
+            <div class="gallery-overlay"></div>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews">
+
+    <div class="reviews-inner">
+
+        <div class="reviews-heading reveal">
+
+            <div class="rating">
+                <strong>4.8</strong> / 5 · 151 avis
+            </div>
+
+            <h2 data-i18n="reviews_title">Ils en parlent.</h2>
+
+        </div>
+
+        <div class="review-slider">
+
+            <div class="review active">
+                <div class="quote" data-i18n="review_1">
+                    « Une cuisine pleine de saveurs, un cadre très élégant et une belle attention portée au service. »
+                </div>
+                <div class="reviewer">— Sascha W.</div>
+            </div>
+
+            <div class="review">
+                <div class="quote" data-i18n="review_2">
+                    « Le sushi était excellent et le restaurant est vraiment très agréable. »
+                </div>
+                <div class="reviewer">— Sandy</div>
+            </div>
+
+            <div class="review">
+                <div class="quote" data-i18n="review_3">
+                    « Des produits frais, beaucoup de goût et une cuisine bien équilibrée. »
+                </div>
+                <div class="reviewer">— Carole R.</div>
+            </div>
+
+        </div>
+
+        <div class="review-controls">
+            <button class="review-dot active" data-review="0"></button>
+            <button class="review-dot" data-review="1"></button>
+            <button class="review-dot" data-review="2"></button>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- RESERVATION -->
+<section class="reservation" id="reservation">
+
+    <div class="reservation-grid">
+
+        <div class="reveal">
+
+            <div class="section-number">07 / Reservation</div>
+
+            <h2 data-i18n="reservation_title">
+                Votre table<br>
+                vous attend.
+            </h2>
+
+            <p class="reservation-copy" data-i18n="reservation_copy">
+                Réservez votre table et profitez d'un moment autour d'une cuisine asiatique contemporaine.
+            </p>
+
+            <div class="contact-details">
+
+                <div class="contact-line">
+                    <span class="contact-label" data-i18n="address_label">Adresse</span>
+                    <span class="contact-value">4 Rue de Kreuzerbuch, 8370 Hobscheid</span>
+                </div>
+
+                <div class="contact-line">
+                    <span class="contact-label" data-i18n="phone_label">Téléphone</span>
+                    <a class="contact-value" href="tel:+352589732">+352 58 97 32</a>
+                </div>
+
+                <div class="contact-line">
+                    <span class="contact-label" data-i18n="hours_label">Horaires</span>
+                    <span class="contact-value" data-i18n="hours_value">Consultez nos horaires actuels</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <form class="reservation-form reveal" id="reservationForm">
+
+            <div class="form-field">
+                <label data-i18n="form_name">Nom</label>
+                <input type="text" required>
+            </div>
+
+            <div class="form-field">
+                <label data-i18n="form_email">Email</label>
+                <input type="email" required>
+            </div>
+
+            <div class="form-field">
+                <label data-i18n="form_phone">Téléphone</label>
+                <input type="tel">
+            </div>
+
+            <div class="form-field">
+                <label data-i18n="form_guests">Personnes</label>
+                <select>
+                    <option>1</option>
+                    <option selected>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6+</option>
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label data-i18n="form_date">Date</label>
+                <input type="date">
+            </div>
+
+            <div class="form-field">
+                <label data-i18n="form_time">Heure</label>
+                <input type="time">
+            </div>
+
+            <div class="form-field full">
+                <label data-i18n="form_message">Message</label>
+                <textarea placeholder=""></textarea>
+            </div>
+
+            <button class="form-submit" type="submit" data-i18n="form_submit">
+                Demander une réservation
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+<!-- LOCATION -->
+<section class="location" id="contact">
+
+    <div class="map"></div>
+
+    <div class="location-content reveal">
+
+        <div class="section-number">08 / Location</div>
+
+        <h2 data-i18n="location_title">
+            Retrouvez<br>
+            Mandarine.
+        </h2>
+
+        <div class="address">
+            4 Rue de Kreuzerbuch<br>
+            8370 Hobscheid Habscht<br>
+            Luxembourg
+        </div>
+
+        <div class="location-links">
+            <a href="https://www.google.com/maps/search/?api=1&query=Restaurant+Mandarine+4+Rue+de+Kreuzerbuch+Hobscheid" target="_blank" data-i18n="directions">Itinéraire →</a>
+            <a href="tel:+352589732" data-i18n="call">Appeler →</a>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+
+    <div class="footer-grid">
+
+        <div class="footer-brand">
+
+            <div class="logo">
+                <span class="logo-main">Mandarine</span>
+                <span class="logo-sub">Asian Fusion · Hobscheid</span>
+            </div>
+
+            <p data-i18n="footer_text">
+                Une cuisine asiatique contemporaine, dans un cadre pensé pour partager.
+            </p>
+
+        </div>
+
+        <div class="footer-column">
+
+            <div class="footer-title" data-i18n="footer_explore">Explorer</div>
+
+            <a href="#restaurant" data-i18n="nav_about">Restaurant</a>
+            <a href="#menu" data-i18n="nav_menu">Menu</a>
+            <a href="#experience" data-i18n="nav_experience">Expérience</a>
+            <a href="#gallery" data-i18n="nav_gallery">Galerie</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <div class="footer-title" data-i18n="footer_contact">Contact</div>
+
+            <a href="tel:+352589732">+352 58 97 32</a>
+            <a href="https://www.google.com/maps/search/?api=1&query=Restaurant+Mandarine+Hobscheid" target="_blank">Hobscheid, Luxembourg</a>
+            <a href="#reservation" data-i18n="reserve">Réserver</a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <div class="footer-title" data-i18n="footer_visit">Visiter</div>
+
+            <span>4 Rue de Kreuzerbuch</span>
+            <span>8370 Hobscheid</span>
+            <span>Luxembourg</span>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <span>© <span id="year"></span> Restaurant Mandarine</span>
+        <span>Asian Fusion · Hobscheid</span>
+        <span data-i18n="footer_rights">Tous droits réservés</span>
+    </div>
+
+</footer>
+
+<script>
+
+/* ==========================================
+   RESTAURANT MANDARINE
+   LANGUAGE SYSTEM
+========================================== */
+
+const translations = {
+
+fr:{
+    nav_about:"Restaurant",
+    nav_menu:"Menu",
+    nav_experience:"Expérience",
+    nav_gallery:"Galerie",
+    nav_contact:"Contact",
+    reserve:"Réserver",
+
+    hero_kicker:"Asian Fusion · Hobscheid · Luxembourg",
+    hero_title_1:"Une cuisine",
+    hero_title_2:"qui rassemble.",
+    hero_description:"Une rencontre entre les saveurs asiatiques, la fraîcheur des produits et une approche contemporaine de la cuisine.",
+    hero_button_1:"Réserver une table",
+    hero_button_2:"Découvrir le menu",
+    scroll:"Découvrir",
+
+    section_restaurant:"Restaurant",
+    intro_title:"Des influences.<br>Une identité.",
+    intro_p1:"Bienvenue chez Mandarine, un restaurant d'inspiration asiatique installé au cœur de Hobscheid.",
+    intro_p2:"Notre cuisine puise dans plusieurs traditions asiatiques pour créer une expérience généreuse, fraîche et actuelle. Des assiettes pensées pour être découvertes, partagées et appréciées ensemble.",
+    intro_p3:"Du sushi aux plats chauds, chaque proposition cherche l'équilibre entre caractère, fraîcheur et simplicité.",
+
+    split_title:"L'Asie,<br>autrement.",
+    split_text:"Des produits frais, des textures contrastées et des saveurs soigneusement équilibrées. Mandarine propose une cuisine qui respecte ses inspirations tout en laissant place à une expression contemporaine.",
+    discover_menu:"Découvrir notre carte",
+
+    section_menu:"La carte",
+    menu_title:"À table.",
+    menu_intro:"Une sélection inspirée de la cuisine asiatique, entre classiques appréciés et créations pensées pour le partage.",
+    cat_starters:"Entrées & à partager",
+    cat_sushi:"Sushi & Sashimi",
+    cat_main:"Plats",
+    cat_dessert:"Desserts",
+
+    dish_1:"Poulet tendre, noix de cajou et légumes croquants.",
+    dish_2:"Raviolis japonais servis avec une sauce maison.",
+    dish_3:"Fèves de soja délicatement assaisonnées.",
+    dish_4:"Légumes et produits sélectionnés dans une pâte légère.",
+    dish_5:"Une sélection de poissons frais préparés minute.",
+    dish_6:"Une sélection variée pour découvrir plusieurs textures.",
+    dish_7:"Rouleaux préparés avec différentes associations.",
+    dish_8:"Selon les arrivages et l'inspiration de la cuisine.",
+    dish_9:"Sole grillée au beurre façon du chef.",
+    dish_10:"Légumes frais sautés au wok.",
+    dish_11:"Nouilles sautées avec légumes et choix de protéines.",
+    dish_12:"Nouilles soba accompagnées d'ingrédients de saison.",
+    dish_13:"Une note fraîche et légère pour terminer le repas.",
+    dish_14:"Demandez à notre équipe les suggestions du moment.",
+
+    experience_title:"Plus qu'un<br>repas.",
+    experience_copy:"Chez Mandarine, nous voulons créer un moment qui dépasse l'assiette. Une atmosphère contemporaine, un service attentif et une cuisine faite pour être appréciée sans précipitation.",
+    card_1_title:"Fraîcheur",
+    card_1_text:"Des ingrédients sélectionnés pour préserver les saveurs, les textures et la qualité de chaque assiette.",
+    card_2_title:"Partage",
+    card_2_text:"Une carte pensée pour découvrir plusieurs préparations autour de la table.",
+    card_3_title:"Accueil",
+    card_3_text:"Une équipe présente pour vous accompagner et rendre votre visite agréable du début à la fin.",
+
+    section_story:"Notre approche",
+    story_title:"Entre tradition<br>et mouvement.",
+    story_p1:"La cuisine asiatique possède une richesse immense : des produits bruts, des cuissons précises, des sauces complexes et des contrastes de textures.",
+    story_p2:"Mandarine s'inspire de cette diversité pour proposer une expérience accessible, élégante et vivante. L'objectif n'est pas de compliquer les choses, mais de faire ressortir ce qui compte.",
+
+    section_gallery:"Galerie",
+    gallery_title:"À voir.<br>À goûter.",
+    gallery_text:"Découvrez l'univers de Mandarine, de la salle aux assiettes.",
+
+    reviews_title:"Ils en parlent.",
+    review_1:"« Une cuisine pleine de saveurs, un cadre très élégant et une belle attention portée au service. »",
+    review_2:"« Le sushi était excellent et le restaurant est vraiment très agréable. »",
+    review_3:"« Des produits frais, beaucoup de goût et une cuisine bien équilibrée. »",
+
+    reservation_title:"Votre table<br>vous attend.",
+    reservation_copy:"Réservez votre table et profitez d'un moment autour d'une cuisine asiatique contemporaine.",
+    address_label:"Adresse",
+    phone_label:"Téléphone",
+    hours_label:"Horaires",
+    hours_value:"Consultez nos horaires actuels",
+
+    form_name:"Nom",
+    form_email:"Email",
+    form_phone:"Téléphone",
+    form_guests:"Personnes",
+    form_date:"Date",
+    form_time:"Heure",
+    form_message:"Message",
+    form_submit:"Demander une réservation",
+
+    location_title:"Retrouvez<br>Mandarine.",
+    directions:"Itinéraire →",
+    call:"Appeler →",
+
+    footer_text:"Une cuisine asiatique contemporaine, dans un cadre pensé pour partager.",
+    footer_explore:"Explorer",
+    footer_contact:"Contact",
+    footer_visit:"Visiter",
+    footer_rights:"Tous droits réservés"
+},
+
+en:{
+    nav_about:"Restaurant",
+    nav_menu:"Menu",
+    nav_experience:"Experience",
+    nav_gallery:"Gallery",
+    nav_contact:"Contact",
+    reserve:"Book a table",
+
+    hero_kicker:"Asian Fusion · Hobscheid · Luxembourg",
+    hero_title_1:"A cuisine",
+    hero_title_2:"made to gather.",
+    hero_description:"A meeting of Asian flavours, fresh ingredients and a contemporary approach to cuisine.",
+    hero_button_1:"Book a table",
+    hero_button_2:"Explore the menu",
+    scroll:"Discover",
+
+    section_restaurant:"Restaurant",
+    intro_title:"Many influences.<br>One identity.",
+    intro_p1:"Welcome to Mandarine, an Asian-inspired restaurant in the heart of Hobscheid.",
+    intro_p2:"Our cuisine draws from several Asian traditions to create an experience that is generous, fresh and contemporary. Plates designed to be discovered, shared and enjoyed together.",
+    intro_p3:"From sushi to warm dishes, every creation seeks a balance between character, freshness and simplicity.",
+
+    split_title:"Asia,<br>reimagined.",
+    split_text:"Fresh ingredients, contrasting textures and carefully balanced flavours. Mandarine respects its inspirations while giving them a contemporary expression.",
+    discover_menu:"Discover our menu",
+
+    section_menu:"The menu",
+    menu_title:"At the table.",
+    menu_intro:"A selection inspired by Asian cuisine, combining familiar favourites with creations made for sharing.",
+    cat_starters:"Starters & sharing",
+    cat_sushi:"Sushi & Sashimi",
+    cat_main:"Main courses",
+    cat_dessert:"Desserts",
+
+    dish_1:"Tender chicken, cashews and crisp vegetables.",
+    dish_2:"Japanese dumplings served with a house sauce.",
+    dish_3:"Delicately seasoned soy beans.",
+    dish_4:"Selected vegetables and ingredients in a light batter.",
+    dish_5:"A selection of fresh fish prepared to order.",
+    dish_6:"A varied selection exploring different textures.",
+    dish_7:"Rolls prepared with different combinations.",
+    dish_8:"Depending on arrivals and the inspiration of the kitchen.",
+    dish_9:"Grilled sole with the chef's signature butter.",
+    dish_10:"Fresh vegetables wok-fried to order.",
+    dish_11:"Stir-fried noodles with vegetables and your choice of protein.",
+    dish_12:"Soba noodles accompanied by seasonal ingredients.",
+    dish_13:"A fresh and delicate note to finish your meal.",
+    dish_14:"Ask our team for today's suggestions.",
+
+    experience_title:"More than<br>a meal.",
+    experience_copy:"At Mandarine, we want to create a moment that goes beyond the plate. A contemporary atmosphere, attentive service and cuisine designed to be enjoyed without rushing.",
+    card_1_title:"Freshness",
+    card_1_text:"Ingredients selected to preserve the flavour, texture and quality of every plate.",
+    card_2_title:"Sharing",
+    card_2_text:"A menu designed to discover several preparations around the table.",
+    card_3_title:"Hospitality",
+    card_3_text:"A team ready to make your visit enjoyable from beginning to end.",
+
+    section_story:"Our approach",
+    story_title:"Between tradition<br>and movement.",
+    story_p1:"Asian cuisine has immense richness: raw ingredients, precise cooking, complex sauces and contrasts of texture.",
+    story_p2:"Mandarine draws from this diversity to create an experience that is accessible, elegant and alive. The goal is not to make things complicated, but to let what matters shine.",
+
+    section_gallery:"Gallery",
+    gallery_title:"See it.<br>Taste it.",
+    gallery_text:"Discover the world of Mandarine, from the dining room to the plate.",
+
+    reviews_title:"They talk about us.",
+    review_1:"“A cuisine full of flavour, an elegant setting and wonderful attention to service.”",
+    review_2:"“The sushi was excellent and the restaurant itself is truly lovely.”",
+    review_3:"“Fresh ingredients, plenty of flavour and beautifully balanced dishes.”",
+
+    reservation_title:"Your table<br>is waiting.",
+    reservation_copy:"Book your table and enjoy a moment around contemporary Asian cuisine.",
+    address_label:"Address",
+    phone_label:"Phone",
+    hours_label:"Opening hours",
+    hours_value:"Please check our current opening hours",
+
+    form_name:"Name",
+    form_email:"Email",
+    form_phone:"Phone",
+    form_guests:"Guests",
+    form_date:"Date",
+    form_time:"Time",
+    form_message:"Message",
+    form_submit:"Request a reservation",
+
+    location_title:"Find<br>Mandarine.",
+    directions:"Directions →",
+    call:"Call →",
+
+    footer_text:"Contemporary Asian cuisine in a setting designed for sharing.",
+    footer_explore:"Explore",
+    footer_contact:"Contact",
+    footer_visit:"Visit",
+    footer_rights:"All rights reserved"
+},
+
+de:{
+    nav_about:"Restaurant",
+    nav_menu:"Speisekarte",
+    nav_experience:"Erlebnis",
+    nav_gallery:"Galerie",
+    nav_contact:"Kontakt",
+    reserve:"Tisch reservieren",
+
+    hero_kicker:"Asian Fusion · Hobscheid · Luxemburg",
+    hero_title_1:"Eine Küche,",
+    hero_title_2:"die verbindet.",
+    hero_description:"Eine Verbindung asiatischer Aromen, frischer Zutaten und einer modernen Interpretation der Küche.",
+    hero_button_1:"Tisch reservieren",
+    hero_button_2:"Speisekarte entdecken",
+    scroll:"Entdecken",
+
+    section_restaurant:"Restaurant",
+    intro_title:"Viele Einflüsse.<br>Eine Identität.",
+    intro_p1:"Willkommen im Mandarine, einem asiatisch inspirierten Restaurant im Herzen von Hobscheid.",
+    intro_p2:"Unsere Küche verbindet verschiedene asiatische Traditionen zu einem großzügigen, frischen und modernen Erlebnis. Gerichte zum Entdecken, Teilen und gemeinsamen Genießen.",
+    intro_p3:"Von Sushi bis zu warmen Gerichten suchen wir in jedem Teller die Balance zwischen Charakter, Frische und Einfachheit.",
+
+    split_title:"Asien,<br>neu gedacht.",
+    split_text:"Frische Zutaten, kontrastreiche Texturen und sorgfältig abgestimmte Aromen. Mandarine respektiert seine Inspirationen und gibt ihnen gleichzeitig eine moderne Ausdrucksform.",
+    discover_menu:"Speisekarte entdecken",
+
+    section_menu:"Die Karte",
+    menu_title:"Zu Tisch.",
+    menu_intro:"Eine Auswahl inspiriert von der asiatischen Küche – mit beliebten Klassikern und Kreationen zum Teilen.",
+    cat_starters:"Vorspeisen & Teilen",
+    cat_sushi:"Sushi & Sashimi",
+    cat_main:"Hauptgerichte",
+    cat_dessert:"Desserts",
+
+    dish_1:"Zartes Hähnchen, Cashewkerne und knackiges Gemüse.",
+    dish_2:"Japanische Teigtaschen mit hausgemachter Sauce.",
+    dish_3:"Fein gewürzte Sojabohnen.",
+    dish_4:"Ausgewähltes Gemüse und Zutaten in leichter Panade.",
+    dish_5:"Eine Auswahl frischer Fische, frisch zubereitet.",
+    dish_6:"Eine abwechslungsreiche Auswahl verschiedener Texturen.",
+    dish_7:"Maki mit unterschiedlichen Kombinationen.",
+    dish_8:"Je nach Lieferung und Inspiration der Küche.",
+    dish_9:"Gegrillte Seezunge mit Butter nach Art des Küchenchefs.",
+    dish_10:"Frisches Gemüse aus dem Wok.",
+    dish_11:"Gebratene Nudeln mit Gemüse und Protein nach Wahl.",
+    dish_12:"Soba-Nudeln mit saisonalen Zutaten.",
+    dish_13:"Eine frische, leichte Note zum Abschluss.",
+    dish_14:"Fragen Sie unser Team nach den aktuellen Empfehlungen.",
+
+    experience_title:"Mehr als<br>ein Essen.",
+    experience_copy:"Im Mandarine möchten wir einen Moment schaffen, der über den Teller hinausgeht. Eine moderne Atmosphäre, aufmerksamer Service und eine Küche, die man ohne Eile genießen kann.",
+    card_1_title:"Frische",
+    card_1_text:"Ausgewählte Zutaten, um Geschmack, Textur und Qualität jedes Gerichts zu bewahren.",
+    card_2_title:"Gemeinsam",
+    card_2_text:"Eine Karte, die dazu einlädt, mehrere Gerichte gemeinsam zu entdecken.",
+    card_3_title:"Gastfreundschaft",
+    card_3_text:"Ein Team, das Sie begleitet und Ihren Besuch von Anfang bis Ende angenehm macht.",
+
+    section_story:"Unser Ansatz",
+    story_title:"Zwischen Tradition<br>und Bewegung.",
+    story_p1:"Die asiatische Küche besitzt eine enorme Vielfalt: hochwertige Zutaten, präzise Zubereitung, komplexe Saucen und spannende Texturen.",
+    story_p2:"Mandarine lässt sich von dieser Vielfalt inspirieren und schafft daraus ein zugängliches, elegantes und lebendiges Erlebnis. Nicht komplizierter machen – sondern das Wesentliche hervorheben.",
+
+    section_gallery:"Galerie",
+    gallery_title:"Sehen.<br>Probieren.",
+    gallery_text:"Entdecken Sie die Welt von Mandarine – vom Restaurant bis zum Teller.",
+
+    reviews_title:"Das sagen unsere Gäste.",
+    review_1:"„Eine geschmackvolle Küche, ein elegantes Ambiente und ein sehr aufmerksamer Service.“",
+    review_2:"„Das Sushi war ausgezeichnet und das Restaurant selbst ist wirklich sehr schön.“",
+    review_3:"„Frische Zutaten, viel Geschmack und wunderbar ausgewogene Gerichte.“",
+
+    reservation_title:"Ihr Tisch<br>wartet.",
+    reservation_copy:"Reservieren Sie Ihren Tisch und genießen Sie einen besonderen Moment mit moderner asiatischer Küche.",
+    address_label:"Adresse",
+    phone_label:"Telefon",
+    hours_label:"Öffnungszeiten",
+    hours_value:"Bitte aktuelle Öffnungszeiten beachten",
+
+    form_name:"Name",
+    form_email:"E-Mail",
+    form_phone:"Telefon",
+    form_guests:"Personen",
+    form_date:"Datum",
+    form_time:"Uhrzeit",
+    form_message:"Nachricht",
+    form_submit:"Reservierung anfragen",
+
+    location_title:"Finden Sie<br>Mandarine.",
+    directions:"Route →",
+    call:"Anrufen →",
+
+    footer_text:"Moderne asiatische Küche in einem Ambiente zum gemeinsamen Genießen.",
+    footer_explore:"Entdecken",
+    footer_contact:"Kontakt",
+    footer_visit:"Besuchen",
+    footer_rights:"Alle Rechte vorbehalten"
+}
+
+};
+
+/* ==========================================
+   LANGUAGE
+========================================== */
+
+let currentLanguage = "fr";
+
+function setLanguage(lang){
+
+    if(!translations[lang]) return;
+
+    currentLanguage = lang;
+
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll("[data-i18n]").forEach(element => {
+
+        const key = element.getAttribute("data-i18n");
+
+        if(translations[lang][key]){
+            element.innerHTML = translations[lang][key];
+        }
+
+    });
+
+    const langButton = document.querySelector(".lang-btn");
+
+    if(langButton){
+        langButton.textContent = lang.toUpperCase() + " ▾";
+    }
+
+    localStorage.setItem("mandarineLanguage",lang);
+}
+
+const savedLanguage = localStorage.getItem("mandarineLanguage");
+
+if(savedLanguage && translations[savedLanguage]){
+    currentLanguage = savedLanguage;
+}
+
+setLanguage(currentLanguage);
+
+
+/* ==========================================
+   LOADER
+========================================== */
+
+window.addEventListener("load",()=>{
+
+    setTimeout(()=>{
+
+        document.getElementById("loader").classList.add("hide");
+
+    },700);
+
+});
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+const header = document.getElementById("header");
+
+window.addEventListener("scroll",()=>{
+
+    if(window.scrollY > 60){
+        header.classList.add("scrolled");
+    }else{
+        header.classList.remove("scrolled");
+    }
+
+});
+
+
+/* ==========================================
+   MOBILE MENU
+========================================== */
+
+const mobileToggle = document.getElementById("mobileToggle");
+const mobileNav = document.getElementById("mobileNav");
+
+mobileToggle.addEventListener("click",()=>{
+
+    mobileNav.classList.toggle("open");
+    document.body.classList.toggle("menu-open");
+
+});
+
+document.querySelectorAll(".mobile-nav a").forEach(link=>{
+
+    link.addEventListener("click",()=>{
+
+        mobileNav.classList.remove("open");
+        document.body.classList.remove("menu-open");
+
+    });
+
+});
+
+
+/* ==========================================
+   MENU ACCORDION
+========================================== */
+
+document.querySelectorAll(".category-head").forEach(head=>{
+
+    head.addEventListener("click",()=>{
+
+        const category = head.parentElement;
+
+        document.querySelectorAll(".menu-category").forEach(item=>{
+
+            if(item !== category){
+                item.classList.remove("open");
+            }
+
+        });
+
+        category.classList.toggle("open");
+
+    });
+
+});
+
+
+/* ==========================================
+   REVEAL ANIMATIONS
+========================================== */
+
+const revealObserver = new IntersectionObserver((entries)=>{
+
+    entries.forEach(entry=>{
+
+        if(entry.isIntersecting){
+
+            entry.target.classList.add("visible");
+
+            revealObserver.unobserve(entry.target);
+
+        }
+
+    });
+
+},{
+    threshold:.12
+});
+
+document.querySelectorAll(".reveal").forEach(element=>{
+
+    revealObserver.observe(element);
+
+});
+
+
+/* ==========================================
+   REVIEW SLIDER
+========================================== */
+
+const reviews = document.querySelectorAll(".review");
+const dots = document.querySelectorAll(".review-dot");
+
+function showReview(index){
+
+    reviews.forEach((review,i)=>{
+
+        review.classList.toggle("active",i === index);
+
+    });
+
+    dots.forEach((dot,i)=>{
+
+        dot.classList.toggle("active",i === index);
+
+    });
+
+}
+
+dots.forEach(dot=>{
+
+    dot.addEventListener("click",()=>{
+
+        showReview(Number(dot.dataset.review));
+
+    });
+
+});
+
+let reviewIndex = 0;
+
+setInterval(()=>{
+
+    reviewIndex++;
+
+    if(reviewIndex >= reviews.length){
+        reviewIndex = 0;
+    }
+
+    showReview(reviewIndex);
+
+},6000);
+
+
+/* ==========================================
+   RESERVATION FORM
+========================================== */
+
+const reservationForm = document.getElementById("reservationForm");
+
+reservationForm.addEventListener("submit",(event)=>{
+
+    event.preventDefault();
+
+    const button = reservationForm.querySelector(".form-submit");
+
+    const originalText = button.textContent;
+
+    button.textContent =
+        currentLanguage === "de"
+        ? "Anfrage erhalten ✓"
+        : currentLanguage === "en"
+        ? "Request received ✓"
+        : "Demande reçue ✓";
+
+    button.disabled = true;
+
+    setTimeout(()=>{
+
+        button.textContent = originalText;
+        button.disabled = false;
+        reservationForm.reset();
+
+    },3500);
+
+});
+
+
+/* ==========================================
+   FOOTER YEAR
+========================================== */
+
+document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+
+/* ==========================================
+   IMAGE FALLBACK
+========================================== */
+
+document.querySelectorAll("img").forEach(img=>{
+
+    img.addEventListener("error",()=>{
+
+        img.style.background="#d8d3c8";
+        img.style.minHeight="100%";
+
+    });
+
+});
+
+
+/* ==========================================
+   SMOOTH ANCHOR OFFSET
+========================================== */
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+
+    anchor.addEventListener("click",function(event){
+
+        const target = document.querySelector(this.getAttribute("href"));
+
+        if(!target) return;
+
+        event.preventDefault();
+
+        const headerHeight = header.offsetHeight;
+
+        const position =
+            target.getBoundingClientRect().top +
+            window.scrollY -
+            headerHeight;
+
+        window.scrollTo({
+            top:position,
+            behavior:"smooth"
+        });
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
+```
