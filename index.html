@@ -3,2072 +3,2740 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#11100e">
 <title>Restaurant Mandarine — Hobscheid</title>
-<meta name="description" content="Restaurant Mandarine à Hobscheid — cuisine asiatique, sushi, sashimi, plats du chef et commande en ligne.">
-
+<meta name="description" content="Restaurant Mandarine à Hobscheid — cuisine asiatique, sushi, sashimi, plats du chef et expérience raffinée.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
---bg:#11100e;
---panel:#181714;
---panel2:#201e1a;
---cream:#f4efe6;
---muted:#aaa399;
---line:rgba(244,239,230,.12);
---accent:#c9a875;
---white:#fff;
---shadow:0 24px 70px rgba(0,0,0,.35);
+    --black:#0b0b0a;
+    --black2:#11110f;
+    --cream:#f2eee5;
+    --cream2:#e8e1d4;
+    --white:#fffdf8;
+    --muted:#aaa59a;
+    --line:rgba(242,238,229,.14);
+    --darkline:rgba(11,11,10,.13);
+    --gold:#b89b68;
+    --max:1420px;
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-html{scroll-behavior:smooth}
+html{
+    scroll-behavior:smooth;
+}
 
 body{
-font-family:"DM Sans",sans-serif;
-background:var(--bg);
-color:var(--cream);
-line-height:1.6;
-overflow-x:hidden;
+    background:var(--black);
+    color:var(--cream);
+    font-family:"DM Sans",sans-serif;
+    overflow-x:hidden;
+}
+
+body.loaded{
+    overflow-x:hidden;
 }
 
 a{
-color:inherit;
-text-decoration:none;
+    color:inherit;
+    text-decoration:none;
 }
 
-button,input,select,textarea{
-font:inherit;
+button,
+input,
+textarea,
+select{
+    font:inherit;
 }
 
-.container{
-width:min(1180px,92%);
-margin:auto;
+button{
+    cursor:pointer;
 }
 
-.topbar{
-background:#0c0c0b;
-border-bottom:1px solid var(--line);
-font-size:13px;
-color:#c7c0b5;
+img{
+    width:100%;
+    display:block;
 }
 
-.topbar .container{
-display:flex;
-justify-content:space-between;
-gap:20px;
-padding:10px 0;
+::selection{
+    background:var(--cream);
+    color:var(--black);
 }
 
-nav{
-position:sticky;
-top:0;
-z-index:100;
-background:rgba(17,16,14,.86);
-backdrop-filter:blur(18px);
-border-bottom:1px solid var(--line);
+/* LOADER */
+
+.loader{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:var(--black);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:opacity 1s ease,visibility 1s ease;
 }
 
-.navin{
-height:78px;
-display:flex;
-align-items:center;
-justify-content:space-between;
+.loader.hide{
+    opacity:0;
+    visibility:hidden;
+}
+
+.loader-inner{
+    text-align:center;
+}
+
+.loader-mark{
+    font-family:"Playfair Display",serif;
+    font-size:42px;
+    letter-spacing:7px;
+    animation:loaderPulse 1.6s infinite;
+}
+
+.loader-line{
+    width:100px;
+    height:1px;
+    background:var(--cream);
+    margin:18px auto;
+    transform-origin:left;
+    animation:loaderLine 1.4s ease infinite;
+}
+
+.loader-small{
+    font-size:9px;
+    letter-spacing:5px;
+    text-transform:uppercase;
+    color:var(--muted);
+}
+
+@keyframes loaderPulse{
+    50%{opacity:.45}
+}
+
+@keyframes loaderLine{
+    0%{transform:scaleX(0)}
+    50%{transform:scaleX(1)}
+    100%{transform:scaleX(0);transform-origin:right}
+}
+
+/* NAV */
+
+.nav{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:1000;
+    padding:25px 4vw;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    transition:.5s ease;
+}
+
+.nav.scrolled{
+    background:rgba(11,11,10,.86);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--line);
+    padding-top:17px;
+    padding-bottom:17px;
 }
 
 .logo{
-font-family:"Playfair Display",serif;
-font-size:28px;
-letter-spacing:.02em;
+    display:flex;
+    flex-direction:column;
+    line-height:.8;
 }
 
-.logo small{
-display:block;
-font-family:"DM Sans";
-font-size:8px;
-letter-spacing:.35em;
-text-transform:uppercase;
-color:var(--accent);
-margin-top:-4px;
+.logo-main{
+    font-family:"Playfair Display",serif;
+    font-size:25px;
+    letter-spacing:1px;
 }
 
-.links{
-display:flex;
-align-items:center;
-gap:28px;
-font-size:14px;
-color:#d2ccc2;
+.logo-sub{
+    margin-top:9px;
+    font-size:7px;
+    letter-spacing:4px;
+    color:var(--muted);
+    text-transform:uppercase;
 }
 
-.links a{
-transition:.25s;
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:34px;
 }
 
-.links a:hover{
-color:var(--accent);
+.nav-links a{
+    font-size:11px;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    color:#d4d0c7;
+    position:relative;
+}
+
+.nav-links a:after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-7px;
+    width:0;
+    height:1px;
+    background:var(--cream);
+    transition:.35s ease;
+}
+
+.nav-links a:hover:after{
+    width:100%;
 }
 
 .nav-actions{
-display:flex;
-align-items:center;
-gap:10px;
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
 .lang{
-background:transparent;
-border:1px solid var(--line);
-color:var(--cream);
-padding:9px 11px;
-border-radius:999px;
+    display:flex;
+    border:1px solid var(--line);
 }
 
-.btn{
-display:inline-flex;
-align-items:center;
-justify-content:center;
-gap:9px;
-border:1px solid transparent;
-border-radius:999px;
-padding:13px 19px;
-cursor:pointer;
-transition:.3s;
-font-weight:600;
+.lang button{
+    border:0;
+    background:transparent;
+    color:#aaa;
+    padding:9px 11px;
+    font-size:9px;
+    letter-spacing:1px;
 }
 
-.btn-gold{
-background:var(--accent);
-color:#16130f;
-}
-
-.btn-gold:hover{
-transform:translateY(-2px);
-filter:brightness(1.06);
-}
-
-.btn-outline{
-border-color:var(--line);
-color:var(--cream);
-background:rgba(255,255,255,.02);
-}
-
-.btn-outline:hover{
-border-color:var(--accent);
+.lang button.active,
+.lang button:hover{
+    color:var(--black);
+    background:var(--cream);
 }
 
 .menu-btn{
-display:none;
-background:none;
-border:0;
-color:white;
-font-size:24px;
+    display:none;
+    width:42px;
+    height:42px;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--cream);
+    align-items:center;
+    justify-content:center;
 }
+
+.menu-btn span,
+.menu-btn span:before,
+.menu-btn span:after{
+    width:18px;
+    height:1px;
+    background:var(--cream);
+    display:block;
+    position:relative;
+}
+
+.menu-btn span:before,
+.menu-btn span:after{
+    content:"";
+    position:absolute;
+    left:0;
+}
+
+.menu-btn span:before{top:-6px}
+.menu-btn span:after{top:6px}
+
+/* HERO */
 
 .hero{
-min-height:calc(100vh - 110px);
-display:grid;
-place-items:center;
-position:relative;
-isolation:isolate;
-background:
-radial-gradient(circle at 75% 35%,rgba(201,168,117,.12),transparent 28%),
-linear-gradient(120deg,#11100e 0%,#15130f 55%,#0c0c0b 100%);
+    min-height:100vh;
+    position:relative;
+    display:flex;
+    align-items:flex-end;
+    overflow:hidden;
 }
 
-.hero:before{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(
-90deg,
-rgba(17,16,14,.96),
-rgba(17,16,14,.72),
-rgba(17,16,14,.3)
-);
+.hero-bg{
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(90deg,rgba(8,8,7,.94) 0%,rgba(8,8,7,.52) 45%,rgba(8,8,7,.3) 100%),
+        linear-gradient(0deg,rgba(8,8,7,.75) 0%,transparent 55%),
+        url("https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=2200&q=90")
+        center/cover;
+    transform:scale(1.04);
+    animation:heroZoom 12s ease-out forwards;
+}
+
+@keyframes heroZoom{
+    to{transform:scale(1)}
+}
+
+.hero-overlay{
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 72% 40%,rgba(255,255,255,.08),transparent 30%);
+    pointer-events:none;
 }
 
 .hero-content{
-position:relative;
-z-index:2;
-width:min(1180px,92%);
-padding:90px 0;
+    position:relative;
+    z-index:2;
+    width:100%;
+    max-width:var(--max);
+    margin:auto;
+    padding:150px 4vw 85px;
 }
 
 .eyebrow{
-text-transform:uppercase;
-letter-spacing:.32em;
-color:var(--accent);
-font-size:12px;
-margin-bottom:22px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    text-transform:uppercase;
+    letter-spacing:4px;
+    font-size:9px;
+    color:#d3cec3;
+    margin-bottom:28px;
 }
 
-h1{
-font-family:"Playfair Display",serif;
-font-weight:600;
-font-size:clamp(58px,9vw,122px);
-line-height:.92;
-max-width:850px;
-letter-spacing:-.045em;
+.eyebrow:before{
+    content:"";
+    width:45px;
+    height:1px;
+    background:var(--cream);
 }
 
-.hero p{
-max-width:610px;
-color:#c4beb5;
-font-size:18px;
-margin:28px 0;
+.hero h1{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(65px,10vw,145px);
+    line-height:.82;
+    font-weight:400;
+    letter-spacing:-5px;
+    max-width:850px;
 }
 
-.hero-meta{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-margin:26px 0 34px;
+.hero h1 em{
+    font-style:italic;
 }
 
-.pill{
-border:1px solid var(--line);
-background:rgba(255,255,255,.03);
-padding:9px 13px;
-border-radius:999px;
-font-size:13px;
+.hero-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-top:55px;
 }
 
-.hero-actions{
-display:flex;
-gap:12px;
-flex-wrap:wrap;
+.hero-copy{
+    max-width:460px;
+    color:#c1bdb3;
+    font-size:14px;
+    line-height:1.8;
 }
 
-section{
-padding:105px 0;
-border-top:1px solid var(--line);
+.hero-buttons{
+    display:flex;
+    gap:10px;
 }
 
-.section-head{
-display:flex;
-justify-content:space-between;
-gap:40px;
-align-items:end;
-margin-bottom:46px;
+.btn{
+    min-width:155px;
+    padding:16px 22px;
+    border:1px solid var(--cream);
+    text-align:center;
+    text-transform:uppercase;
+    letter-spacing:1.8px;
+    font-size:9px;
+    transition:.35s ease;
 }
 
-.kicker{
-color:var(--accent);
-font-size:11px;
-text-transform:uppercase;
-letter-spacing:.28em;
-margin-bottom:12px;
+.btn.primary{
+    background:var(--cream);
+    color:var(--black);
 }
 
-h2{
-font-family:"Playfair Display",serif;
-font-size:clamp(38px,5vw,66px);
-line-height:1;
+.btn:hover{
+    transform:translateY(-3px);
 }
 
-.lead{
-max-width:530px;
-color:var(--muted);
+.btn.secondary{
+    border-color:rgba(242,238,229,.35);
+    color:var(--cream);
 }
 
-.grid2{
-display:grid;
-grid-template-columns:1.15fr .85fr;
-gap:70px;
-align-items:center;
+.btn.secondary:hover{
+    border-color:var(--cream);
+    background:rgba(242,238,229,.08);
 }
 
-.quote{
-font-family:"Playfair Display";
-font-size:28px;
-line-height:1.3;
-color:#e9e2d8;
-border-left:1px solid var(--accent);
-padding-left:25px;
+.hero-scroll{
+    position:absolute;
+    right:4vw;
+    bottom:38px;
+    writing-mode:vertical-rl;
+    font-size:8px;
+    letter-spacing:4px;
+    color:#aaa69d;
+    text-transform:uppercase;
 }
 
-.card{
-background:linear-gradient(145deg,var(--panel),#12110f);
-border:1px solid var(--line);
-border-radius:24px;
-padding:28px;
-box-shadow:var(--shadow);
+/* INTRO */
+
+.intro{
+    background:var(--cream);
+    color:var(--black);
+    padding:145px 4vw;
 }
 
-.info-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:16px;
+.container{
+    max-width:var(--max);
+    margin:auto;
 }
 
-.info-card{
-min-height:170px;
+.intro-grid{
+    display:grid;
+    grid-template-columns:1fr 1.5fr;
+    gap:100px;
+    align-items:start;
 }
 
-.info-card strong{
-display:block;
-font-family:"Playfair Display";
-font-size:25px;
-margin:10px 0;
+.section-label{
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:4px;
+    color:#77736b;
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
-.info-card span{
-color:var(--muted);
-font-size:14px;
+.section-label:before{
+    content:"";
+    width:30px;
+    height:1px;
+    background:currentColor;
+}
+
+.intro-title{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(42px,5vw,76px);
+    line-height:.95;
+    font-weight:400;
+    max-width:800px;
+}
+
+.intro-title em{
+    font-style:italic;
+}
+
+.intro-text{
+    margin-top:40px;
+    max-width:620px;
+    font-size:15px;
+    line-height:1.9;
+    color:#55514a;
+}
+
+.intro-side{
+    border-top:1px solid var(--darkline);
+    padding-top:25px;
+}
+
+.fact{
+    padding:23px 0;
+    border-bottom:1px solid var(--darkline);
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.fact span:first-child{
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    color:#77736b;
+}
+
+.fact span:last-child{
+    font-size:13px;
+    text-align:right;
+}
+
+/* IMAGE FEATURE */
+
+.feature{
+    padding:0 4vw 140px;
+    background:var(--cream);
+    color:var(--black);
+}
+
+.feature-image{
+    height:75vh;
+    min-height:500px;
+    position:relative;
+    overflow:hidden;
+}
+
+.feature-image img{
+    height:100%;
+    object-fit:cover;
+    transition:transform 1.4s cubic-bezier(.2,.7,.2,1);
+}
+
+.feature-image:hover img{
+    transform:scale(1.035);
+}
+
+.feature-caption{
+    position:absolute;
+    left:35px;
+    bottom:30px;
+    background:rgba(8,8,7,.82);
+    backdrop-filter:blur(12px);
+    padding:22px 26px;
+    max-width:350px;
+    color:var(--cream);
+}
+
+.feature-caption small{
+    text-transform:uppercase;
+    letter-spacing:3px;
+    font-size:8px;
+    color:#aaa;
+}
+
+.feature-caption h3{
+    font-family:"Playfair Display",serif;
+    font-size:26px;
+    font-weight:400;
+    margin-top:8px;
+}
+
+/* PHILOSOPHY */
+
+.philosophy{
+    padding:150px 4vw;
+    background:var(--black);
+}
+
+.philosophy-grid{
+    display:grid;
+    grid-template-columns:1fr 1.6fr;
+    gap:100px;
+}
+
+.dark-label{
+    color:#8f8b83;
+}
+
+.philosophy-title{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(45px,6vw,85px);
+    line-height:.95;
+    font-weight:400;
+}
+
+.philosophy-title em{
+    font-style:italic;
+}
+
+.philosophy-copy{
+    max-width:650px;
+    color:#aaa69d;
+    font-size:15px;
+    line-height:1.95;
+}
+
+.philosophy-copy p+p{
+    margin-top:24px;
+}
+
+.number-grid{
+    margin-top:75px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--line);
+}
+
+.number-item{
+    padding:30px 28px 20px 0;
+    border-right:1px solid var(--line);
+}
+
+.number-item:not(:first-child){
+    padding-left:28px;
+}
+
+.number-item:last-child{
+    border-right:0;
+}
+
+.number{
+    font-family:"Playfair Display",serif;
+    font-size:45px;
+}
+
+.number-title{
+    margin-top:12px;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.number-text{
+    margin-top:10px;
+    color:#77736d;
+    font-size:12px;
+    line-height:1.7;
+}
+
+/* MENU */
+
+.menu-section{
+    background:var(--cream);
+    color:var(--black);
+    padding:150px 4vw;
+}
+
+.menu-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:40px;
+    margin-bottom:65px;
+}
+
+.menu-title{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(55px,7vw,100px);
+    line-height:.85;
+    font-weight:400;
+}
+
+.menu-title em{
+    font-style:italic;
+}
+
+.menu-intro{
+    max-width:330px;
+    color:#69645c;
+    font-size:13px;
+    line-height:1.8;
 }
 
 .menu-controls{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-bottom:25px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-bottom:45px;
 }
 
-.search{
-flex:1;
-min-width:230px;
-background:var(--panel);
-border:1px solid var(--line);
-color:white;
-padding:14px 17px;
-border-radius:14px;
-outline:none;
+.filter{
+    border:1px solid rgba(11,11,10,.18);
+    background:transparent;
+    color:#35322e;
+    padding:11px 15px;
+    font-size:8px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    transition:.3s ease;
 }
 
-.search:focus{
-border-color:var(--accent);
+.filter.active,
+.filter:hover{
+    background:var(--black);
+    color:var(--cream);
+    border-color:var(--black);
 }
 
-.catbar{
-display:flex;
-gap:8px;
-overflow:auto;
-padding-bottom:10px;
-margin-bottom:30px;
+.menu-search{
+    width:100%;
+    max-width:430px;
+    border:0;
+    border-bottom:1px solid rgba(11,11,10,.25);
+    background:transparent;
+    outline:none;
+    padding:15px 0;
+    color:var(--black);
+    margin-bottom:35px;
+    font-size:13px;
 }
 
-.catbar button{
-white-space:nowrap;
-border:1px solid var(--line);
-background:transparent;
-color:#c8c1b8;
-border-radius:999px;
-padding:10px 14px;
-cursor:pointer;
+.menu-search::placeholder{
+    color:#8d887f;
 }
 
-.catbar button.active,
-.catbar button:hover{
-background:var(--cream);
-color:#111;
-border-color:var(--cream);
+.menu-category{
+    border-top:1px solid rgba(11,11,10,.25);
+    margin-bottom:15px;
 }
 
-.menu-list{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
+.category-head{
+    width:100%;
+    border:0;
+    background:transparent;
+    color:var(--black);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:28px 0;
+    text-align:left;
+}
+
+.category-head h3{
+    font-family:"Playfair Display",serif;
+    font-size:28px;
+    font-weight:400;
+}
+
+.category-head span{
+    font-size:18px;
+    font-weight:300;
+    transition:.35s ease;
+}
+
+.menu-category.open .category-head span{
+    transform:rotate(45deg);
+}
+
+.category-body{
+    display:none;
+    padding-bottom:28px;
+}
+
+.menu-category.open .category-body{
+    display:block;
+    animation:openMenu .4s ease;
+}
+
+@keyframes openMenu{
+    from{opacity:0;transform:translateY(-10px)}
+    to{opacity:1;transform:translateY(0)}
 }
 
 .menu-item{
-background:var(--panel);
-border:1px solid var(--line);
-padding:21px;
-border-radius:18px;
-transition:.25s;
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:30px;
+    padding:19px 0;
+    border-bottom:1px solid rgba(11,11,10,.1);
 }
 
-.menu-item:hover{
-transform:translateY(-3px);
-border-color:rgba(201,168,117,.5);
+.menu-item:last-child{
+    border-bottom:0;
 }
 
-.menu-top{
-display:flex;
-justify-content:space-between;
-gap:20px;
+.item-info h4{
+    font-size:14px;
+    font-weight:500;
 }
 
-.menu-name{
-font-family:"Playfair Display";
-font-size:20px;
+.item-info p{
+    margin-top:5px;
+    color:#777169;
+    font-size:11px;
+    line-height:1.6;
+    max-width:760px;
 }
 
 .price{
-color:var(--accent);
-font-weight:700;
-white-space:nowrap;
+    font-family:"Playfair Display",serif;
+    font-size:17px;
+    white-space:nowrap;
 }
 
-.desc{
-font-size:13px;
-color:var(--muted);
-margin-top:7px;
+.no-results{
+    display:none;
+    padding:50px 0;
+    color:#777;
+    font-size:13px;
 }
 
-.category-title{
-grid-column:1/-1;
-font-family:"Playfair Display";
-font-size:31px;
-margin:32px 0 3px;
-}
+/* GALLERY */
 
 .gallery{
-display:grid;
-grid-template-columns:1.2fr .8fr .8fr;
-grid-auto-rows:220px;
-gap:14px;
+    background:var(--black);
+    padding:150px 4vw;
 }
 
-.gallery div{
-border-radius:22px;
-overflow:hidden;
-background:linear-gradient(145deg,#29251f,#14120f);
-position:relative;
+.gallery-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    margin-bottom:55px;
 }
 
-.gallery div:after{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(
-180deg,
-transparent 40%,
-rgba(0,0,0,.45)
-);
+.gallery-title{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(50px,6vw,88px);
+    line-height:.9;
+    font-weight:400;
 }
 
-.gallery .large{
-grid-row:span 2;
+.gallery-title em{
+    font-style:italic;
 }
 
-.gallery .photo1{
-background:linear-gradient(135deg,#6f5b47,#1c1813);
+.gallery-note{
+    color:#77736c;
+    max-width:300px;
+    font-size:12px;
+    line-height:1.7;
 }
 
-.gallery .photo2{
-background:linear-gradient(135deg,#3b4540,#161814);
+.gallery-grid{
+    display:grid;
+    grid-template-columns:1.2fr .8fr 1fr;
+    grid-template-rows:340px 430px;
+    gap:12px;
 }
 
-.gallery .photo3{
-background:linear-gradient(135deg,#8d6f50,#242019);
+.gallery-card{
+    overflow:hidden;
+    position:relative;
 }
 
-.gallery .photo4{
-background:linear-gradient(135deg,#514238,#171411);
+.gallery-card.large{
+    grid-row:span 2;
 }
 
-.gallery .photo5{
-background:linear-gradient(135deg,#665e52,#181612);
+.gallery-card.wide{
+    grid-column:span 2;
 }
 
-.gallery .label{
-position:absolute;
-z-index:2;
-bottom:18px;
-left:18px;
-font-family:"Playfair Display";
-font-size:23px;
+.gallery-card img{
+    height:100%;
+    object-fit:cover;
+    transition:1s cubic-bezier(.2,.7,.2,1);
+}
+
+.gallery-card:hover img{
+    transform:scale(1.06);
+}
+
+.gallery-card:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(0deg,rgba(0,0,0,.38),transparent 50%);
+    pointer-events:none;
+}
+
+/* EXPERIENCE */
+
+.experience{
+    background:var(--cream);
+    color:var(--black);
+    padding:150px 4vw;
+}
+
+.experience-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:100px;
+}
+
+.exp-image{
+    height:650px;
+    overflow:hidden;
+}
+
+.exp-image img{
+    height:100%;
+    object-fit:cover;
+    transition:1.2s ease;
+}
+
+.exp-image:hover img{
+    transform:scale(1.04);
+}
+
+.exp-content{
+    align-self:center;
+}
+
+.exp-title{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(50px,5vw,75px);
+    font-weight:400;
+    line-height:.95;
+    margin:28px 0 35px;
+}
+
+.exp-title em{
+    font-style:italic;
+}
+
+.exp-content p{
+    max-width:540px;
+    color:#625e56;
+    font-size:14px;
+    line-height:1.9;
+}
+
+.exp-list{
+    margin-top:40px;
+    border-top:1px solid var(--darkline);
+}
+
+.exp-row{
+    padding:18px 0;
+    border-bottom:1px solid var(--darkline);
+    display:flex;
+    gap:20px;
+    align-items:center;
+}
+
+.exp-row span:first-child{
+    font-family:"Playfair Display",serif;
+    font-size:22px;
+    width:35px;
+}
+
+.exp-row span:last-child{
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+/* REVIEWS */
+
+.reviews{
+    padding:150px 4vw;
+    background:#121210;
+}
+
+.review-header{
+    text-align:center;
+}
+
+.review-title{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(50px,6vw,85px);
+    font-weight:400;
+    line-height:.9;
+}
+
+.review-title em{
+    font-style:italic;
+}
+
+.review-stars{
+    margin-top:24px;
+    letter-spacing:5px;
+    font-size:12px;
+    color:#d5c7ad;
+}
+
+.review-slider{
+    max-width:900px;
+    margin:80px auto 0;
+    position:relative;
+    min-height:270px;
 }
 
 .review{
-min-height:270px;
-display:flex;
-flex-direction:column;
-justify-content:space-between;
+    display:none;
+    text-align:center;
 }
 
-.stars{
-color:var(--accent);
-letter-spacing:3px;
+.review.active{
+    display:block;
+    animation:reviewIn .6s ease;
+}
+
+@keyframes reviewIn{
+    from{opacity:0;transform:translateY(15px)}
+    to{opacity:1;transform:translateY(0)}
 }
 
 .review p{
-font-family:"Playfair Display";
-font-size:24px;
-line-height:1.4;
+    font-family:"Playfair Display",serif;
+    font-size:clamp(24px,3vw,38px);
+    line-height:1.35;
+    font-style:italic;
+    color:#e6e1d8;
 }
 
-.review small{
-color:var(--muted);
+.review-name{
+    margin-top:30px;
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:3px;
+    color:#858078;
 }
+
+.review-controls{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:40px;
+}
+
+.review-dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    border:0;
+    background:#44413d;
+}
+
+.review-dot.active{
+    background:var(--cream);
+}
+
+/* RESERVATION */
 
 .reservation{
-display:grid;
-grid-template-columns:.9fr 1.1fr;
-gap:30px;
+    background:var(--cream);
+    color:var(--black);
+    padding:150px 4vw;
 }
 
-form{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:13px;
+.reservation-grid{
+    display:grid;
+    grid-template-columns:.8fr 1.2fr;
+    gap:110px;
 }
 
-input,
-select,
-textarea{
-width:100%;
-background:#11100e;
-border:1px solid var(--line);
-color:white;
-border-radius:13px;
-padding:14px;
-outline:none;
+.res-title{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(55px,6vw,90px);
+    line-height:.88;
+    font-weight:400;
+    margin:28px 0;
 }
 
-textarea{
-grid-column:1/-1;
-min-height:120px;
-resize:vertical;
+.res-title em{
+    font-style:italic;
 }
 
-form .full{
-grid-column:1/-1;
+.res-copy{
+    max-width:390px;
+    color:#666159;
+    font-size:13px;
+    line-height:1.8;
 }
 
-input:focus,
-select:focus,
-textarea:focus{
-border-color:var(--accent);
+.res-info{
+    margin-top:40px;
+    border-top:1px solid var(--darkline);
+}
+
+.res-info-row{
+    padding:17px 0;
+    border-bottom:1px solid var(--darkline);
+    display:flex;
+    justify-content:space-between;
+    font-size:11px;
+}
+
+.res-info-row span:first-child{
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    color:#7a756c;
+}
+
+.form{
+    border-top:1px solid var(--darkline);
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+}
+
+.field{
+    border-bottom:1px solid rgba(11,11,10,.25);
+    padding:20px 0;
+}
+
+.field label{
+    display:block;
+    font-size:8px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    color:#77736b;
+    margin-bottom:10px;
+}
+
+.field input,
+.field select,
+.field textarea{
+    width:100%;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:var(--black);
+    font-size:14px;
+}
+
+.field textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+.form-submit{
+    margin-top:30px;
+    border:1px solid var(--black);
+    background:var(--black);
+    color:var(--cream);
+    padding:17px 30px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:9px;
+    transition:.3s ease;
+}
+
+.form-submit:hover{
+    background:transparent;
+    color:var(--black);
+}
+
+.form-message{
+    display:none;
+    margin-top:20px;
+    font-size:11px;
+    color:#5e5a52;
+}
+
+/* CONTACT */
+
+.contact{
+    padding:150px 4vw 100px;
+    background:var(--black);
+}
+
+.contact-top{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:100px;
+}
+
+.contact-title{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(50px,7vw,105px);
+    font-weight:400;
+    line-height:.85;
+}
+
+.contact-title em{
+    font-style:italic;
+}
+
+.contact-right{
+    align-self:end;
+}
+
+.contact-right p{
+    color:#858079;
+    font-size:13px;
+    line-height:1.8;
+    max-width:430px;
+}
+
+.contact-links{
+    margin-top:35px;
+}
+
+.contact-link{
+    display:flex;
+    justify-content:space-between;
+    border-top:1px solid var(--line);
+    padding:18px 0;
+    font-size:12px;
+}
+
+.contact-link:last-child{
+    border-bottom:1px solid var(--line);
+}
+
+.contact-link span:first-child{
+    color:#77736d;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:8px;
+}
+
+.contact-link:hover span:last-child{
+    text-decoration:underline;
 }
 
 .map{
-min-height:350px;
-border-radius:24px;
-background:
-radial-gradient(circle at 60% 40%,rgba(201,168,117,.18),transparent 20%),
-repeating-linear-gradient(
-45deg,
-#1b1916 0 2px,
-#171512 2px 18px
-);
-border:1px solid var(--line);
-display:flex;
-align-items:end;
-padding:25px;
+    margin-top:90px;
+    height:430px;
+    background:
+        linear-gradient(rgba(0,0,0,.28),rgba(0,0,0,.28)),
+        url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2000&q=85")
+        center/cover;
+    position:relative;
+    overflow:hidden;
 }
 
-.hours{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
+.map-card{
+    position:absolute;
+    left:30px;
+    bottom:30px;
+    background:rgba(11,11,10,.9);
+    backdrop-filter:blur(15px);
+    padding:28px;
+    min-width:300px;
 }
 
-.hours h3{
-font-family:"Playfair Display";
-font-size:23px;
-margin-bottom:8px;
+.map-card h3{
+    font-family:"Playfair Display",serif;
+    font-size:25px;
+    font-weight:400;
 }
 
-.hours p{
-color:var(--muted);
+.map-card p{
+    color:#858079;
+    margin-top:10px;
+    font-size:11px;
+    line-height:1.7;
 }
 
-.notice{
-margin-top:18px;
-color:#a9a299;
-font-size:12px;
-line-height:1.7;
+.map-card a{
+    display:inline-block;
+    margin-top:18px;
+    font-size:8px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    border-bottom:1px solid #777;
+    padding-bottom:5px;
 }
 
-footer{
-padding:50px 0 35px;
-background:#0b0b0a;
-border-top:1px solid var(--line);
+/* ALLERGENS */
+
+.allergens{
+    background:#0d0d0c;
+    border-top:1px solid var(--line);
+    padding:70px 4vw;
 }
 
-.footer-grid{
-display:grid;
-grid-template-columns:1.2fr .8fr .8fr;
-gap:40px;
+.allergens-inner{
+    max-width:var(--max);
+    margin:auto;
 }
 
-.footer-grid h3{
-font-family:"Playfair Display";
-font-size:22px;
-margin-bottom:14px;
+.allergens h3{
+    font-family:"Playfair Display",serif;
+    font-size:32px;
+    font-weight:400;
 }
 
-.footer-grid p,
-.footer-grid a{
-color:var(--muted);
-font-size:14px;
-display:block;
-margin:5px 0;
+.allergen-grid{
+    margin-top:30px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
 }
 
-.copy{
-border-top:1px solid var(--line);
-margin-top:35px;
-padding-top:20px;
-color:#6f6b64;
-font-size:12px;
+.allergen{
+    color:#858079;
+    font-size:10px;
+    line-height:1.6;
 }
 
-.modal{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.75);
-backdrop-filter:blur(12px);
-display:none;
-place-items:center;
-z-index:200;
-padding:20px;
+/* FOOTER */
+
+.footer{
+    background:var(--black);
+    border-top:1px solid var(--line);
+    padding:55px 4vw 35px;
 }
 
-.modal.open{
-display:grid;
+.footer-top{
+    max-width:var(--max);
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
 }
 
-.modal-box{
-max-width:560px;
-width:100%;
-background:#171512;
-border:1px solid var(--line);
-border-radius:25px;
-padding:35px;
-box-shadow:var(--shadow);
+.footer-logo{
+    font-family:"Playfair Display",serif;
+    font-size:32px;
 }
 
-.close{
-float:right;
-border:0;
-background:none;
-color:white;
-font-size:25px;
-cursor:pointer;
+.footer-tag{
+    margin-top:10px;
+    color:#66625c;
+    font-size:9px;
+    letter-spacing:2px;
+    text-transform:uppercase;
 }
 
-.toast{
-position:fixed;
-right:22px;
-bottom:22px;
-background:#f4efe6;
-color:#111;
-padding:14px 18px;
-border-radius:12px;
-display:none;
-z-index:300;
+.footer-nav{
+    display:flex;
+    gap:28px;
+    color:#8a867f;
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:1px;
 }
+
+.footer-bottom{
+    max-width:var(--max);
+    margin:70px auto 0;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    color:#55514c;
+    font-size:8px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+/* MOBILE NAV */
+
+.mobile-menu{
+    position:fixed;
+    inset:0;
+    z-index:2000;
+    background:var(--black);
+    padding:30px;
+    display:none;
+    flex-direction:column;
+}
+
+.mobile-menu.open{
+    display:flex;
+}
+
+.mobile-close{
+    align-self:flex-end;
+    width:42px;
+    height:42px;
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--cream);
+    font-size:20px;
+}
+
+.mobile-links{
+    margin-top:70px;
+    display:flex;
+    flex-direction:column;
+}
+
+.mobile-links a{
+    font-family:"Playfair Display",serif;
+    font-size:43px;
+    font-weight:400;
+    padding:16px 0;
+    border-bottom:1px solid var(--line);
+}
+
+/* REVEAL */
 
 .reveal{
-opacity:0;
-transform:translateY(20px);
-transition:.7s ease;
+    opacity:0;
+    transform:translateY(35px);
+    transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1);
 }
 
 .reveal.visible{
-opacity:1;
-transform:none;
+    opacity:1;
+    transform:translateY(0);
 }
 
-@media(max-width:900px){
+/* RESPONSIVE */
 
-.links{
-display:none;
+@media(max-width:1000px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .menu-btn{
+        display:flex;
+    }
+
+    .intro-grid,
+    .philosophy-grid,
+    .experience-grid,
+    .reservation-grid,
+    .contact-top{
+        grid-template-columns:1fr;
+        gap:55px;
+    }
+
+    .gallery-grid{
+        grid-template-columns:1fr 1fr;
+        grid-template-rows:350px 350px 350px;
+    }
+
+    .gallery-card.large{
+        grid-row:span 2;
+    }
+
+    .gallery-card.wide{
+        grid-column:span 2;
+    }
+
+    .feature-image{
+        height:60vh;
+    }
+
+    .allergen-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
 }
 
-.menu-btn{
-display:block;
-}
+@media(max-width:700px){
 
-.nav-actions .btn{
-display:none;
-}
+    .nav{
+        padding:20px 20px;
+    }
 
-.grid2,
-.reservation{
-grid-template-columns:1fr;
-}
+    .nav.scrolled{
+        padding:15px 20px;
+    }
 
-.info-grid{
-grid-template-columns:1fr;
-}
+    .hero-content{
+        padding:140px 20px 65px;
+    }
 
-.menu-list{
-grid-template-columns:1fr;
-}
+    .hero h1{
+        font-size:65px;
+        letter-spacing:-3px;
+    }
 
-.gallery{
-grid-template-columns:1fr 1fr;
-}
+    .hero-bottom{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:35px;
+    }
 
-.gallery .large{
-grid-row:span 1;
-}
+    .hero-buttons{
+        width:100%;
+    }
 
-.footer-grid{
-grid-template-columns:1fr 1fr;
-}
+    .btn{
+        flex:1;
+        min-width:0;
+    }
 
-}
+    .hero-scroll{
+        display:none;
+    }
 
-@media(max-width:600px){
+    .intro,
+    .menu-section,
+    .gallery,
+    .experience,
+    .philosophy,
+    .reviews,
+    .reservation,
+    .contact{
+        padding:90px 20px;
+    }
 
-.topbar .container{
-display:block;
-text-align:center;
-}
+    .feature{
+        padding:0 20px 90px;
+    }
 
-.topbar .container span{
-display:block;
-margin:2px;
-}
+    .intro-grid{
+        gap:50px;
+    }
 
-.navin{
-height:68px;
-}
+    .number-grid{
+        grid-template-columns:1fr;
+    }
 
-h1{
-font-size:58px;
-}
+    .number-item,
+    .number-item:not(:first-child){
+        border-right:0;
+        border-bottom:1px solid var(--line);
+        padding:25px 0;
+    }
 
-.hero{
-min-height:calc(100vh - 98px);
-}
+    .number-item:last-child{
+        border-bottom:0;
+    }
 
-section{
-padding:75px 0;
-}
+    .menu-header,
+    .gallery-heading{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:25px;
+    }
 
-.section-head{
-display:block;
-}
+    .menu-title{
+        font-size:65px;
+    }
 
-.lead{
-margin-top:20px;
-}
+    .menu-controls{
+        overflow-x:auto;
+        flex-wrap:nowrap;
+        padding-bottom:8px;
+    }
 
-.gallery{
-grid-template-columns:1fr;
-}
+    .filter{
+        white-space:nowrap;
+    }
 
-.gallery div{
-min-height:220px;
-}
+    .menu-item{
+        grid-template-columns:1fr auto;
+        gap:12px;
+    }
 
-.hours,
-form,
-.footer-grid{
-grid-template-columns:1fr;
-}
+    .item-info h4{
+        font-size:13px;
+    }
 
-textarea,
-form .full{
-grid-column:auto;
-}
+    .item-info p{
+        font-size:10px;
+    }
 
-.catbar{
-margin-left:-4%;
-margin-right:-4%;
-padding-left:4%;
-padding-right:4%;
-}
+    .gallery-grid{
+        display:grid;
+        grid-template-columns:1fr;
+        grid-template-rows:300px 300px 300px 300px;
+    }
 
+    .gallery-card.large,
+    .gallery-card.wide{
+        grid-row:auto;
+        grid-column:auto;
+    }
+
+    .feature-image{
+        height:55vh;
+        min-height:400px;
+    }
+
+    .exp-image{
+        height:480px;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+        gap:0;
+    }
+
+    .map{
+        height:360px;
+        margin-top:55px;
+    }
+
+    .map-card{
+        left:15px;
+        bottom:15px;
+        right:15px;
+        min-width:0;
+    }
+
+    .contact-title{
+        font-size:65px;
+    }
+
+    .footer-top,
+    .footer-bottom{
+        flex-direction:column;
+        gap:30px;
+    }
+
+    .footer-nav{
+        flex-wrap:wrap;
+    }
+
+    .allergen-grid{
+        grid-template-columns:1fr;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="topbar">
-<div class="container">
-<span>Restaurant Mandarine · 4, rue de Kreuzerbuch · L-8370 Hobscheid</span>
-<span>Ouvert lundi–dimanche · fermé mardi</span>
-</div>
-</div>
-
-<nav>
-<div class="container navin">
-
-<a href="#top" class="logo">
-Mandarine
-<small>Restaurant · Hobscheid</small>
-</a>
-
-<div class="links">
-<a href="#restaurant">Restaurant</a>
-<a href="#menu">Menu</a>
-<a href="#experience">Expérience</a>
-<a href="#reservation">Réserver</a>
-<a href="#contact">Contact</a>
+<div class="loader">
+    <div class="loader-inner">
+        <div class="loader-mark">MANDARINE</div>
+        <div class="loader-line"></div>
+        <div class="loader-small">Hobscheid · Luxembourg</div>
+    </div>
 </div>
 
-<div class="nav-actions">
+<header class="nav" id="nav">
+    <a href="#top" class="logo">
+        <span class="logo-main">Mandarine</span>
+        <span class="logo-sub">Restaurant · Hobscheid</span>
+    </a>
 
-<select class="lang" id="lang">
-<option value="fr">FR</option>
-<option value="en">EN</option>
-<option value="de">DE</option>
-</select>
+    <nav class="nav-links">
+        <a href="#restaurant" data-fr="Restaurant" data-en="Restaurant" data-de="Restaurant">Restaurant</a>
+        <a href="#menu" data-fr="Menu" data-en="Menu" data-de="Speisekarte">Menu</a>
+        <a href="#experience" data-fr="Expérience" data-en="Experience" data-de="Erlebnis">Expérience</a>
+        <a href="#gallery" data-fr="Galerie" data-en="Gallery" data-de="Galerie">Galerie</a>
+        <a href="#reservation" data-fr="Réserver" data-en="Reserve" data-de="Reservieren">Réserver</a>
+    </nav>
 
-<a class="btn btn-gold"
-href="https://www.restaurantmandarine.lu/fr/commander"
-target="_blank">
-Commander
-</a>
+    <div class="nav-actions">
+        <div class="lang">
+            <button class="active" data-lang="fr">FR</button>
+            <button data-lang="en">EN</button>
+            <button data-lang="de">DE</button>
+        </div>
+        <button class="menu-btn" id="menuBtn"><span></span></button>
+    </div>
+</header>
 
-<button class="menu-btn" id="mobileMenu">☰</button>
-
+<div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">×</button>
+    <div class="mobile-links">
+        <a href="#restaurant">Restaurant</a>
+        <a href="#menu">Menu</a>
+        <a href="#experience">Expérience</a>
+        <a href="#gallery">Galerie</a>
+        <a href="#reservation">Réserver</a>
+        <a href="#contact">Contact</a>
+    </div>
 </div>
-</div>
-</nav>
 
 <main id="top">
 
 <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
 
-<div class="hero-content">
+    <div class="hero-content">
+        <div class="eyebrow">Asian cuisine · Hobscheid</div>
 
-<div class="eyebrow">
-Cuisine asiatique · Sushi · Hobscheid
-</div>
+        <h1>
+            Restaurant<br>
+            <em>Mandarine.</em>
+        </h1>
 
-<h1>
-Une cuisine qui mérite d’être découverte.
-</h1>
+        <div class="hero-bottom">
+            <p class="hero-copy">
+                Une cuisine asiatique contemporaine, des produits soigneusement sélectionnés
+                et une atmosphère élégante au cœur de Hobscheid.
+            </p>
 
-<p>
-Restaurant Mandarine propose une cuisine asiatique généreuse,
-des créations sushi et des plats travaillés autour de produits frais,
-dans une atmosphère contemporaine et chaleureuse.
-</p>
+            <div class="hero-buttons">
+                <a class="btn primary" href="#reservation">Réserver une table</a>
+                <a class="btn secondary" href="#menu">Découvrir le menu</a>
+            </div>
+        </div>
+    </div>
 
-<div class="hero-meta">
-
-<span class="pill">
-4,8 / 5 · 151 avis
-</span>
-
-<span class="pill">
-Sur place & commande
-</span>
-
-<span class="pill">
-Lundi – Dimanche
-</span>
-
-</div>
-
-<div class="hero-actions">
-
-<a href="#reservation" class="btn btn-gold">
-Réserver une table
-</a>
-
-<a href="#menu" class="btn btn-outline">
-Découvrir le menu
-</a>
-
-</div>
-
-</div>
-
+    <div class="hero-scroll">Scroll to explore</div>
 </section>
 
-<section id="restaurant">
+<section class="intro" id="restaurant">
+    <div class="container intro-grid">
+        <div>
+            <div class="section-label reveal">Restaurant Mandarine</div>
+        </div>
 
-<div class="container grid2 reveal">
+        <div>
+            <h2 class="intro-title reveal">
+                Une rencontre entre
+                <em>tradition</em> et modernité.
+            </h2>
 
-<div>
+            <p class="intro-text reveal">
+                Restaurant Mandarine propose une cuisine asiatique riche et variée,
+                allant des spécialités traditionnelles aux créations sushi, sashimi,
+                tataki et plats inspirés de différentes régions d'Asie.
+                Chaque assiette est pensée pour offrir une expérience généreuse,
+                fraîche et équilibrée.
+            </p>
 
-<div class="kicker">
-Le restaurant
-</div>
+            <div class="intro-side reveal">
+                <div class="fact">
+                    <span>Adresse</span>
+                    <span>4, rue de Kreuzerbuch<br>L-8370 Hobscheid</span>
+                </div>
 
-<h2>
-Des classiques asiatiques,
-une identité propre.
-</h2>
+                <div class="fact">
+                    <span>Déjeuner</span>
+                    <span>11:30 — 13:50</span>
+                </div>
 
-<p class="lead" style="margin-top:25px">
-Du sushi et sashimi aux plats du chef, en passant par les
-spécialités thaï, chinoises et les créations maison, la carte
-de Mandarine propose une grande variété de saveurs.
-</p>
+                <div class="fact">
+                    <span>Dîner</span>
+                    <span>18:00 — 22:00</span>
+                </div>
 
-<div style="margin-top:30px">
-
-<a class="btn btn-outline" href="#menu">
-Voir toute la carte
-</a>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="quote">
-« Une adresse où l’on peut prendre le temps de choisir,
-partager et découvrir. »
-</div>
-
-<p style="color:var(--muted);margin-top:20px">
-Une expérience pensée autour de la cuisine,
-du service et d’une atmosphère élégante.
-</p>
-
-</div>
-
-</div>
-
+                <div class="fact">
+                    <span>Fermeture</span>
+                    <span>Mardi</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
-<section>
-
-<div class="container">
-
-<div class="section-head reveal">
-
-<div>
-<div class="kicker">Informations</div>
-<h2>Avant votre visite</h2>
-</div>
-
-<p class="lead">
-Retrouvez ici les horaires du restaurant et de la livraison.
-</p>
-
-</div>
-
-<div class="info-grid">
-
-<div class="card info-card reveal">
-
-<div class="kicker">Restaurant</div>
-
-<strong>
-11:30 – 13:50
-</strong>
-
-<span>
-Service du midi · lundi à dimanche
-</span>
-
-</div>
-
-<div class="card info-card reveal">
-
-<div class="kicker">Soir</div>
-
-<strong>
-18:00 – 22:00
-</strong>
-
-<span>
-Service du soir · lundi à dimanche
-</span>
-
-</div>
-
-<div class="card info-card reveal">
-
-<div class="kicker">Fermeture</div>
-
-<strong>
-Mardi
-</strong>
-
-<span>
-Restaurant fermé le mardi
-</span>
-
-</div>
-
-</div>
-
-<div class="card reveal" style="margin-top:16px">
-
-<div class="hours">
-
-<div>
-
-<h3>
-Horaires de livraison
-</h3>
-
-<p>
-Lundi à dimanche<br>
-11:00 – 13:50<br>
-17:30 – 22:00
-</p>
-
-</div>
-
-<div>
-
-<h3>
-Commander en ligne
-</h3>
-
-<p>
-Retrouvez le menu et passez votre commande directement
-depuis le site officiel.
-</p>
-
-<a
-class="btn btn-gold"
-style="margin-top:12px"
-href="https://www.restaurantmandarine.lu/fr/commander"
-target="_blank">
-Menu & Commander
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
+<section class="feature">
+    <div class="feature-image reveal">
+        <img
+            src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=2200&q=90"
+            alt="Sushi"
+        >
+        <div class="feature-caption">
+            <small>La cuisine Mandarine</small>
+            <h3>Fraîcheur. Précision. Caractère.</h3>
+        </div>
+    </div>
 </section>
 
-<section id="menu">
+<section class="philosophy">
+    <div class="container philosophy-grid">
+        <div>
+            <div class="section-label dark-label reveal">Notre philosophie</div>
+        </div>
 
-<div class="container">
+        <div>
+            <h2 class="philosophy-title reveal">
+                Plus qu'un repas.<br>
+                Une <em>expérience.</em>
+            </h2>
 
-<div class="section-head reveal">
+            <div class="philosophy-copy reveal">
+                <p>
+                    Sushi, sashimi, tataki, cuisine thaïlandaise, spécialités chinoises
+                    et créations du chef se rencontrent chez Mandarine.
+                </p>
+                <p>
+                    Notre carte est conçue pour permettre à chacun de composer son expérience,
+                    d'une assiette légère à un repas complet à partager.
+                </p>
+            </div>
 
-<div>
+            <div class="number-grid reveal">
+                <div class="number-item">
+                    <div class="number">01</div>
+                    <div class="number-title">Sushi</div>
+                    <div class="number-text">Nigiri, sashimi, maki, California et créations signature.</div>
+                </div>
 
-<div class="kicker">
-La carte
-</div>
+                <div class="number-item">
+                    <div class="number">02</div>
+                    <div class="number-title">Cuisine</div>
+                    <div class="number-text">Plats du chef, wok, spécialités thaïlandaises et chinoises.</div>
+                </div>
 
-<h2>
-Menu Mandarine
-</h2>
-
-</div>
-
-<p class="lead">
-Sushi, sashimi, plats du chef, nouilles, riz,
-spécialités asiatiques et plateaux à partager.
-</p>
-
-</div>
-
-<div class="menu-controls">
-
-<input
-class="search"
-id="search"
-placeholder="Rechercher un plat, un ingrédient, un sushi..."
->
-
-</div>
-
-<div class="catbar" id="catbar"></div>
-
-<div class="menu-list" id="menuList"></div>
-
-</div>
-
+                <div class="number-item">
+                    <div class="number">03</div>
+                    <div class="number-title">Partage</div>
+                    <div class="number-text">Plateaux et spécialités pensées pour être découvertes ensemble.</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
-<section id="experience">
+<section class="menu-section" id="menu">
+    <div class="container">
 
-<div class="container">
+        <div class="menu-header">
+            <div>
+                <div class="section-label reveal">La carte</div>
+                <h2 class="menu-title reveal">Notre<br><em>menu.</em></h2>
+            </div>
 
-<div class="section-head reveal">
+            <p class="menu-intro reveal">
+                Découvrez l'ensemble de la carte Mandarine,
+                des entrées aux spécialités du chef, jusqu'aux créations sushi.
+            </p>
+        </div>
 
-<div>
+        <input
+            type="text"
+            id="menuSearch"
+            class="menu-search"
+            placeholder="Rechercher un plat..."
+        >
 
-<div class="kicker">
-L’expérience
-</div>
+        <div class="menu-controls" id="filters"></div>
 
-<h2>
-À partager. À savourer.
-</h2>
+        <div id="menuContainer"></div>
 
-</div>
+        <div class="no-results" id="noResults">
+            Aucun plat ne correspond à votre recherche.
+        </div>
 
-<p class="lead">
-Une carte suffisamment variée pour une découverte à deux,
-un repas en famille ou une soirée autour du sushi.
-</p>
-
-</div>
-
-<div class="gallery reveal">
-
-<div class="large photo1">
-<span class="label">Sushi & Sashimi</span>
-</div>
-
-<div class="photo2">
-<span class="label">Fraîcheur</span>
-</div>
-
-<div class="photo3">
-<span class="label">Créations</span>
-</div>
-
-<div class="photo4">
-<span class="label">Cuisine</span>
-</div>
-
-<div class="photo5">
-<span class="label">À partager</span>
-</div>
-
-</div>
-
-</div>
-
+    </div>
 </section>
 
-<section>
+<section class="gallery" id="gallery">
+    <div class="container">
+        <div class="gallery-heading">
+            <div>
+                <div class="section-label dark-label reveal">L'atmosphère</div>
+                <h2 class="gallery-title reveal">Un cadre<br><em>à découvrir.</em></h2>
+            </div>
 
-<div class="container">
+            <p class="gallery-note reveal">
+                Une atmosphère contemporaine et chaleureuse pensée pour les repas
+                intimes comme pour les moments à partager.
+            </p>
+        </div>
 
-<div class="section-head reveal">
+        <div class="gallery-grid">
+            <div class="gallery-card large reveal">
+                <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1300&q=90" alt="Restaurant">
+            </div>
 
-<div>
+            <div class="gallery-card reveal">
+                <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=1000&q=90" alt="Sushi">
+            </div>
 
-<div class="kicker">
-Avis
-</div>
+            <div class="gallery-card reveal">
+                <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=90" alt="Cuisine">
+            </div>
 
-<h2>
-Ce que disent nos clients
-</h2>
-
-</div>
-
-<p class="lead">
-Les témoignages affichés ici reprennent les thèmes présents
-dans les avis fournis pour cette maquette.
-</p>
-
-</div>
-
-<div class="grid2">
-
-<div class="card review reveal">
-
-<div class="stars">
-★★★★★
-</div>
-
-<p>
-« Une ambiance moderne et naturelle,
-un personnel sympathique et attentif,
-et un assortiment de sushi très apprécié. »
-</p>
-
-<small>
-Sascha Wolsfeld
-</small>
-
-</div>
-
-<div class="card review reveal">
-
-<div class="stars">
-★★★★★
-</div>
-
-<p>
-« Restaurant élégant, belle sélection et sushi très appréciés.
-Une adresse agréable pour découvrir plusieurs plats. »
-</p>
-
-<small>
-Sandy
-</small>
-
-</div>
-
-</div>
-
-<div class="card review reveal" style="margin-top:16px">
-
-<div class="stars">
-★★★★★
-</div>
-
-<p>
-« Des plats délicieux, des légumes frais,
-des saveurs bien équilibrées et un accueil sympathique. »
-</p>
-
-<small>
-Carole Reuter
-</small>
-
-</div>
-
-</div>
-
+            <div class="gallery-card wide reveal">
+                <img src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1500&q=90" alt="Cuisine asiatique">
+            </div>
+        </div>
+    </div>
 </section>
 
-<section id="reservation">
+<section class="experience" id="experience">
+    <div class="container experience-grid">
+        <div class="exp-image reveal">
+            <img
+                src="https://images.unsplash.com/photo-1611143669185-af224c5e3252?auto=format&fit=crop&w=1400&q=90"
+                alt="Sushi Mandarine"
+            >
+        </div>
 
-<div class="container">
+        <div class="exp-content">
+            <div class="section-label reveal">L'expérience</div>
 
-<div class="section-head reveal">
+            <h2 class="exp-title reveal">
+                Des classiques<br>
+                avec une <em>signature.</em>
+            </h2>
 
-<div>
+            <p class="reveal">
+                La carte Mandarine propose un large choix pour accompagner chaque envie :
+                cuisine chaude, sushi, poisson cru, plats végétariens, spécialités
+                thaïlandaises et créations du chef.
+            </p>
 
-<div class="kicker">
-Réservation
-</div>
-
-<h2>
-Votre table, simplement.
-</h2>
-
-</div>
-
-<p class="lead">
-Envoyez une demande de réservation.
-Pour une confirmation définitive, le restaurant peut vous recontacter.
-</p>
-
-</div>
-
-<div class="reservation">
-
-<div class="card reveal">
-
-<h3 style="font-family:'Playfair Display';font-size:28px">
-Réserver
-</h3>
-
-<p style="color:var(--muted);margin:10px 0 25px">
-Choisissez votre date, votre horaire et le nombre de personnes.
-</p>
-
-<form id="reservationForm">
-
-<input required name="name" placeholder="Nom">
-
-<input required name="phone" placeholder="Téléphone">
-
-<input required type="date" name="date">
-
-<input required type="time" name="time">
-
-<input
-required
-type="number"
-min="1"
-max="30"
-name="people"
-placeholder="Nombre de personnes"
->
-
-<input
-name="email"
-type="email"
-placeholder="E-mail"
->
-
-<textarea
-name="message"
-placeholder="Message ou demande particulière">
-</textarea>
-
-<button class="btn btn-gold full" type="submit">
-Envoyer la demande
-</button>
-
-</form>
-
-</div>
-
-<div class="map reveal">
-
-<div class="card" style="width:100%">
-
-<div class="kicker">
-Nous trouver
-</div>
-
-<h3 style="font-family:'Playfair Display';font-size:28px">
-4, rue de Kreuzerbuch
-</h3>
-
-<p style="color:var(--muted)">
-L-8370 Hobscheid, Luxembourg
-</p>
-
-<div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:17px">
-
-<a
-class="btn btn-gold"
-href="https://www.google.com/maps/search/?api=1&query=4%20Rue%20de%20Kreuzerbuch%2C%208370%20Hobscheid%2C%20Luxembourg"
-target="_blank">
-Itinéraire
-</a>
-
-<a
-class="btn btn-outline"
-href="tel:+352589732">
-58 97 32
-</a>
-
-<a
-class="btn btn-outline"
-href="tel:+352621730511">
-621 730 511
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
+            <div class="exp-list reveal">
+                <div class="exp-row">
+                    <span>01</span>
+                    <span>Sushi & Sashimi</span>
+                </div>
+                <div class="exp-row">
+                    <span>02</span>
+                    <span>Spécialités du chef</span>
+                </div>
+                <div class="exp-row">
+                    <span>03</span>
+                    <span>Cuisine thaïlandaise</span>
+                </div>
+                <div class="exp-row">
+                    <span>04</span>
+                    <span>Plateaux à partager</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
-<section id="contact">
+<section class="reviews">
+    <div class="container">
+        <div class="review-header">
+            <div class="section-label dark-label reveal" style="justify-content:center;">Les avis</div>
 
-<div class="container grid2">
+            <h2 class="review-title reveal">
+                Ils ont découvert<br>
+                <em>Mandarine.</em>
+            </h2>
 
-<div class="reveal">
+            <div class="review-stars reveal">★★★★★</div>
+        </div>
 
-<div class="kicker">
-Contact
-</div>
+        <div class="review-slider">
 
-<h2>
-Restaurant Mandarine
-</h2>
+            <div class="review active">
+                <p>
+                    “Une ambiance moderne, une équipe attentive et un très beau choix
+                    de sushi. Une belle expérience.”
+                </p>
+                <div class="review-name">Sascha Wolsfeld</div>
+            </div>
 
-<p class="lead" style="margin-top:20px">
-4, rue de Kreuzerbuch<br>
-L-8370 Hobscheid<br>
-Luxembourg
-</p>
+            <div class="review">
+                <p>
+                    “Restaurant élégant, sushi excellent et une très belle sélection
+                    de plats.”
+                </p>
+                <div class="review-name">Sandy</div>
+            </div>
 
-</div>
+            <div class="review">
+                <p>
+                    “Très bon, frais, bien préparé et des portions généreuses.
+                    Le service est très sympathique.”
+                </p>
+                <div class="review-name">Carole Reuter</div>
+            </div>
 
-<div class="card reveal">
+        </div>
 
-<p>
-<strong>Téléphone</strong><br>
-
-<a
-href="tel:+352589732"
-style="color:var(--muted)">
-58 97 32
-</a>
-
-</p>
-
-<p style="margin-top:14px">
-
-<strong>GSM</strong><br>
-
-<a
-href="tel:+352621730511"
-style="color:var(--muted)">
-621 730 511
-</a>
-
-</p>
-
-<p style="margin-top:14px">
-
-<strong>E-mail</strong><br>
-
-<a
-href="mailto:contact@restaurantmandarine.lu"
-style="color:var(--muted)">
-contact@restaurantmandarine.lu
-</a>
-
-</p>
-
-</div>
-
-</div>
-
+        <div class="review-controls">
+            <button class="review-dot active"></button>
+            <button class="review-dot"></button>
+            <button class="review-dot"></button>
+        </div>
+    </div>
 </section>
 
-<section>
+<section class="reservation" id="reservation">
+    <div class="container reservation-grid">
 
-<div class="container">
+        <div>
+            <div class="section-label reveal">Votre table</div>
 
-<div class="card reveal">
+            <h2 class="res-title reveal">
+                Réservez<br>
+                <em>votre moment.</em>
+            </h2>
 
-<div class="kicker">
-Allergènes
-</div>
+            <p class="res-copy reveal">
+                Pour une réservation ou toute demande particulière,
+                contactez directement le restaurant.
+            </p>
 
-<h2 style="font-size:42px">
-Information importante
-</h2>
+            <div class="res-info reveal">
+                <div class="res-info-row">
+                    <span>Restaurant</span>
+                    <span>11:30–13:50 · 18:00–22:00</span>
+                </div>
 
-<p class="notice" style="font-size:14px">
-Nous vous informons sur les 14 allergènes suivant le règlement
-(UE) n°1169/2011. Notre personnel est à votre disposition
-pour toute question.
-</p>
+                <div class="res-info-row">
+                    <span>Fermé</span>
+                    <span>Mardi</span>
+                </div>
 
-<div class="info-grid" style="margin-top:25px">
+                <div class="res-info-row">
+                    <span>Téléphone</span>
+                    <span>58 97 32</span>
+                </div>
 
-<div><strong>1.</strong> Céréales contenant du gluten</div>
-<div><strong>2.</strong> Crustacés</div>
-<div><strong>3.</strong> Œufs</div>
-<div><strong>4.</strong> Poissons</div>
-<div><strong>5.</strong> Arachides</div>
-<div><strong>6.</strong> Soja</div>
-<div><strong>7.</strong> Lait et lactose</div>
-<div><strong>8.</strong> Fruits à coque</div>
-<div><strong>9.</strong> Céleri</div>
-<div><strong>10.</strong> Moutarde</div>
-<div><strong>11.</strong> Sésame</div>
-<div><strong>12.</strong> Sulfites</div>
-<div><strong>13.</strong> Lupin</div>
-<div><strong>14.</strong> Mollusques</div>
+                <div class="res-info-row">
+                    <span>Mobile</span>
+                    <span>621 730 511</span>
+                </div>
+            </div>
+        </div>
 
-</div>
+        <div>
+            <form class="form" id="reservationForm">
 
-<p class="notice">
-Pendant la préparation de nos plats, nous travaillons en cuisine
-avec des ingrédients allergènes. Nos préparations peuvent
-involontairement contenir des traces d’allergènes.
-</p>
+                <div class="form-row">
+                    <div class="field">
+                        <label>Nom</label>
+                        <input type="text" required placeholder="Votre nom">
+                    </div>
 
-</div>
+                    <div class="field">
+                        <label>Téléphone</label>
+                        <input type="tel" required placeholder="Votre numéro">
+                    </div>
+                </div>
 
-</div>
+                <div class="form-row">
+                    <div class="field">
+                        <label>Date</label>
+                        <input type="date" required>
+                    </div>
 
+                    <div class="field">
+                        <label>Heure</label>
+                        <select required>
+                            <option value="">Choisir</option>
+                            <option>11:30</option>
+                            <option>12:00</option>
+                            <option>12:30</option>
+                            <option>13:00</option>
+                            <option>13:30</option>
+                            <option>18:00</option>
+                            <option>18:30</option>
+                            <option>19:00</option>
+                            <option>19:30</option>
+                            <option>20:00</option>
+                            <option>20:30</option>
+                            <option>21:00</option>
+                            <option>21:30</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label>Nombre de personnes</label>
+                        <select required>
+                            <option value="">Choisir</option>
+                            <option>1 personne</option>
+                            <option>2 personnes</option>
+                            <option>3 personnes</option>
+                            <option>4 personnes</option>
+                            <option>5 personnes</option>
+                            <option>6 personnes</option>
+                            <option>7 personnes</option>
+                            <option>8 personnes</option>
+                            <option>9+ personnes</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Email</label>
+                        <input type="email" placeholder="Votre email">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Message</label>
+                    <textarea placeholder="Demande particulière..."></textarea>
+                </div>
+
+                <button type="submit" class="form-submit">
+                    Demander une réservation
+                </button>
+
+                <div class="form-message" id="formMessage">
+                    Votre demande a bien été enregistrée. Le restaurant vous contactera pour confirmation.
+                </div>
+
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="contact" id="contact">
+    <div class="container">
+
+        <div class="contact-top">
+            <div>
+                <div class="section-label dark-label reveal">Nous trouver</div>
+
+                <h2 class="contact-title reveal">
+                    À bientôt<br>
+                    <em>chez Mandarine.</em>
+                </h2>
+            </div>
+
+            <div class="contact-right reveal">
+                <p>
+                    Restaurant Mandarine se trouve au 4, rue de Kreuzerbuch
+                    à Hobscheid, Luxembourg.
+                </p>
+
+                <div class="contact-links">
+                    <a href="tel:+352589732" class="contact-link">
+                        <span>Téléphone</span>
+                        <span>+352 58 97 32</span>
+                    </a>
+
+                    <a href="tel:+352621730511" class="contact-link">
+                        <span>Mobile</span>
+                        <span>+352 621 730 511</span>
+                    </a>
+
+                    <a href="mailto:contact@restaurantmandarine.lu" class="contact-link">
+                        <span>Email</span>
+                        <span>contact@restaurantmandarine.lu</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="map reveal">
+            <div class="map-card">
+                <h3>Restaurant Mandarine</h3>
+                <p>
+                    4, rue de Kreuzerbuch<br>
+                    L-8370 Hobscheid<br>
+                    Luxembourg
+                </p>
+
+                <a
+                    href="https://www.google.com/maps/search/?api=1&query=Restaurant+Mandarine+4+Rue+de+Kreuzerbuch+Hobscheid+Luxembourg"
+                    target="_blank"
+                >
+                    Ouvrir dans Google Maps →
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="allergens">
+    <div class="allergens-inner">
+        <div class="section-label dark-label">Informations allergènes</div>
+
+        <h3 style="margin-top:25px;">
+            Les 14 allergènes majeurs
+        </h3>
+
+        <div class="allergen-grid">
+            <div class="allergen">01 — Céréales contenant du gluten</div>
+            <div class="allergen">02 — Crustacés</div>
+            <div class="allergen">03 — Œufs</div>
+            <div class="allergen">04 — Poissons</div>
+            <div class="allergen">05 — Arachides</div>
+            <div class="allergen">06 — Soja</div>
+            <div class="allergen">07 — Lait et lactose</div>
+            <div class="allergen">08 — Fruits à coque</div>
+            <div class="allergen">09 — Céleri</div>
+            <div class="allergen">10 — Moutarde</div>
+            <div class="allergen">11 — Graines de sésame</div>
+            <div class="allergen">12 — Sulfites</div>
+            <div class="allergen">13 — Lupin</div>
+            <div class="allergen">14 — Mollusques</div>
+        </div>
+
+        <p style="margin-top:25px;color:#65615b;font-size:10px;line-height:1.7;max-width:900px;">
+            Pendant la préparation de nos plats nous travaillons en cuisine avec des ingrédients
+            allergènes. Nos préparations peuvent contenir involontairement des traces d’allergènes.
+            Notre personnel est à votre disposition pour toute question.
+        </p>
+    </div>
 </section>
 
 </main>
 
-<footer>
+<footer class="footer">
+    <div class="footer-top">
+        <div>
+            <div class="footer-logo">Mandarine</div>
+            <div class="footer-tag">Restaurant · Asian Cuisine · Hobscheid</div>
+        </div>
 
-<div class="container">
+        <div class="footer-nav">
+            <a href="#restaurant">Restaurant</a>
+            <a href="#menu">Menu</a>
+            <a href="#gallery">Galerie</a>
+            <a href="#reservation">Réserver</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </div>
 
-<div class="footer-grid">
-
-<div>
-
-<div class="logo">
-Mandarine
-<small>Restaurant · Hobscheid</small>
-</div>
-
-<p style="margin-top:15px">
-Cuisine asiatique, sushi et spécialités du chef.
-</p>
-
-</div>
-
-<div>
-
-<h3>
-Navigation
-</h3>
-
-<a href="#restaurant">
-Restaurant
-</a>
-
-<a href="#menu">
-Menu
-</a>
-
-<a href="#reservation">
-Réserver
-</a>
-
-<a href="#contact">
-Contact
-</a>
-
-</div>
-
-<div>
-
-<h3>
-Contact
-</h3>
-
-<a href="tel:+352589732">
-58 97 32
-</a>
-
-<a href="mailto:contact@restaurantmandarine.lu">
-contact@restaurantmandarine.lu
-</a>
-
-<a
-href="https://www.restaurantmandarine.lu/fr/commander"
-target="_blank">
-Commander en ligne
-</a>
-
-</div>
-
-</div>
-
-<div class="copy">
-© 2026 Restaurant Mandarine — Tous droits réservés.
-</div>
-
-</div>
-
+    <div class="footer-bottom">
+        <span>© 2026 Restaurant Mandarine</span>
+        <span>Hobscheid · Luxembourg</span>
+    </div>
 </footer>
-
-<div class="modal" id="mobileModal">
-
-<div class="modal-box">
-
-<button class="close" id="closeMobile">
-×
-</button>
-
-<h2 style="font-size:42px">
-Mandarine
-</h2>
-
-<div style="display:grid;gap:12px;margin-top:25px">
-
-<a href="#restaurant">
-Restaurant
-</a>
-
-<a href="#menu">
-Menu
-</a>
-
-<a href="#experience">
-Expérience
-</a>
-
-<a href="#reservation">
-Réserver
-</a>
-
-<a href="#contact">
-Contact
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="toast" id="toast">
-Votre demande a été préparée.
-</div>
 
 <script>
 
-const menu = [
+/* =========================
+   MENU DATA
+========================= */
+
+const menuData = [
+
 {
 name:"Soupe",
 items:[
-{name:"Soupe misofumé de poisson, algue japonaise, tofu à la ciboulette",desc:"",price:"5.50 €"},
-{name:"Soupe miso royale de la mer",desc:"Crevette, fumé de poisson, algue japonaise, tofu, ciboulette",price:"6.80 €"},
-{name:"Soupe Pékinois",desc:"Poulet, tofu, champignons des bois, bambou, champignons, ciboulette, oeuf",price:"6.00 €"},
-{name:"Soupe WAN TUN",desc:"Raviolis aux scampis, choux de chine, champignons, ciboulette",price:"6.80 €"},
-{name:"Soupe au Vermicelle",desc:"Poulet, vermicelles, légumes, ciboulette",price:"6.80 €"},
-{name:"Soupe TOM YAM KUNG",desc:"Crevettes, citronnelle, coriandre, basilic, champignons, tomates et cébette",price:"8.90 €"}
+["Soupe misofumé de poisson, algue japonaise, tofu à la ciboulette","5,50 €",""],
+["Soupe miso royale de la mer","6,80 €","Crevette, fumé de poisson, algue japonaise, tofu, ciboulette"],
+["Soupe Pékinois","6,00 €","Poulet, tofu, champignons des bois, bambou, champignons, ciboulette, oeuf"],
+["Soupe WAN TUN","6,80 €","Raviolis aux scampis, choux de chine, champignons, ciboulette"],
+["Soupe au Vermicelle","6,80 €",""],
+["Soupe TOM YAM KUNG","8,90 €",""]
 ]
 },
+
 {
 name:"Les entrées",
 items:[
-{name:"Croquettes de printemps (2 pièces)",desc:"Soja, poireaux et carotte",price:"6.50 €"},
-{name:"Nems vietnamien (4 pièces)",desc:"Porc, champignons des bois avec légumes et vermicelles",price:"7.50 €"},
-{name:"Mini croquette au Légumes (10 pièces)",desc:"Légumes",price:"6.80 €"},
-{name:"Gyoza au poulet (4 pièces)",desc:"Raviolis de poulet cuits à la vapeur et sur poêles",price:"8.90 €"},
-{name:"Ha gao (4 pièces)",desc:"Raviolis aux crevettes cuits à la vapeur",price:"8.90 €"},
-{name:"Xiu long bao (4 pièces)",desc:"Raviolis au porc cuits à la vapeur",price:"8.50 €"},
-{name:"Assortiment de DIM SUM (6 pièces)",desc:"Assortiment de raviolis à la vapeur",price:"12.50 €"},
-{name:"Saté scampis (2 pièces)",desc:"Brochette de scampis, poivron et oignons",price:"8.80 €"},
-{name:"Yakitori (3 pièces)",desc:"Brochette de poulet à la sauce YAKITORI",price:"9.50 €"},
-{name:"Boeuf au fromage (3 pièces)",desc:"Bœuf finement tranché, enrobé de lanières de fromage",price:"10.50 €"},
-{name:"Cuisses de grenouilles (5 pièces)",desc:"Beurre, oignons, champignon, ail, carotte, persil",price:"12.80 €"},
-{name:"Scampis au sel et poivre (5 pièces)",desc:"Oignons, poivron, ail, sel et poivre",price:"12.80 €"},
-{name:"Takoyaki de poulpe (3 pièces)",desc:"Boulettes de poulpe grillées, bonite hachée, sauce yakitori et mayonnaise",price:"9.50 €"}
+["Croquettes de printemps (2 pièces)","6,50 €",""],
+["Nems vietnamien (4 pièces)","7,50 €",""],
+["Mini croquette au Légumes (10 pièces)","6,80 €",""],
+["Gyoza au poulet (4 pièces)","8,90 €",""],
+["Ha gao (4 pièces)","8,90 €",""],
+["Xiu long bao (4 pièces)","8,50 €",""],
+["Assortiment de DIM SUM (6 pièces)","12,50 €",""],
+["Saté scampis (2 pièces)","8,80 €",""],
+["Yakitori (3 pièces)","9,50 €",""],
+["Boeuf au fromage (3 pièces)","10,50 €",""],
+["Cuisses de grenouilles (5 pièces)","12,80 €",""],
+["Scampis au sel et poivre (5 pièces)","12,80 €",""],
+["Takoyaki de poulpe (3 pièces)","9,50 €","Boulettes de poulpe grillées, bonite hachée, sauce yakitori et mayonnaise"]
 ]
 },
+
 {
 name:"Tataki & Tartare",
 items:[
-{name:"Tataki Saumon 12 pièces",desc:"Saumon mi-cuit, ail, sésame, beurre et sauce du chef",price:"15.80 €"},
-{name:"Tataki Thon 12 pièces",desc:"Thon mi-cuit, ail, sésame, beurre et sauce du chef",price:"16.80 €"},
-{name:"Tatare de Saumon",desc:"Saumon, avocat, œuf de saumon, sésame et sauce du chef",price:"17.80 €"},
-{name:"Tatare de Thon spicy",desc:"Thon, avocat, tobiko, sésame et 7 épices, sauce du chef",price:"19.80 €"}
+["Tataki Saumon 12 pièces","15,80 €","Saumon mi-cuit, ail, sésame, beurre et sauce du chef"],
+["Tataki Thon 12 pièces","16,80 €","Thon mi-cuit, ail, sésame, beurre et sauce de chef"],
+["Tatare de Saumon","17,80 €","Saumon, avocat, œuf de saumon, sésame et sauce du chef"],
+["Tatare de Thon spicy","19,80 €","Thon, avocat, tobiko, sésame, 7 épices et sauce du chef"]
 ]
 },
+
 {
 name:"Les salades",
 items:[
-{name:"Salade d’algues",desc:"À l’huile de sésame",price:"6.00 €"},
-{name:"Salade de choux",desc:"Mariné à la vinaigrette, mayonnaise et graines de sésame",price:"5.50 €"},
-{name:"Salade Edamamé",desc:"Fèves de soja servies avec cosse",price:"6.00 €"},
-{name:"Salade thaïlandaise",desc:"Scampis grillés, tomate, concombre, salade verte, menthe, jus de citron et arachides",price:"14.80 €"}
+["Salade d’algues","6,00 €","À l’huile de sésame"],
+["Salade de choux","5,50 €","Mariné à la vinaigrette, mayonnaise et graines de sésame"],
+["Salade Edamamé","6,00 €","Fèves de soja servies avec cosse"],
+["Salade thaïlandaise","14,80 €","Scampis grillés, tomate, concombre, salade verte, menthe, jus de citron et arachides"]
 ]
 },
+
 {
 name:"Poulet",
 items:[
-{name:"Poulet Noix de cajou",desc:"Bambou, carotte, champignon, poivron, oignon et noix de cajou",price:"17.50 €"},
-{name:"Poulet caramélisé",desc:"Sauce soja au sésame, à l'ail et au caramel",price:"17.80 €"},
-{name:"Poulet curry",desc:"Champignons, carotte, oignons, poireau et lait",price:"16.80 €"},
-{name:"Poulet façon sichuan",desc:"Poivron, oignon, sésame, ail, beurre",price:"18.20 €"},
-{name:"Poulet façon thaï",desc:"Citronnelle, basilic, gombo, courgettes, échalotes, poivron et ail",price:"18.90 €"}
+["Poulet Noix de cajou","17,50 €","Bambou, carotte, champignon, poivron, oignon et noix de cajou"],
+["Poulet caramélisé","17,80 €","Sauce soja au sésame, à l'ail et au caramel"],
+["Poulet curry","16,80 €","Champignons, carotte, oignons, poireau et lait"],
+["Poulet façon sichuan","18,20 €","Poivron, oignon, sésame, ail, beurre"],
+["Poulet façon thaï","18,90 €","Citronnelle, basilic, gombo, courgettes, échalotes, poivron et ail"]
 ]
 },
+
 {
 name:"Boeuf",
 items:[
-{name:"Bœuf façon du chef",desc:"Boeuf, trémelle, échalote, champignons, carotte, ail flambé au Cognac",price:"25.80 €"},
-{name:"Bœuf poivre noir",desc:"Bœuf, poivron, légumes sautés avec sauce poivre noir et ail",price:"23.50 €"},
-{name:"Bœuf échalotes",desc:"Bœuf, carotte, ciboulette, échalotes, ail",price:"23.80 €"},
-{name:"Bœuf piquante（Bouillon）",desc:"Tranches de bœuf, concombre et germes de soja dans un délicieux bouillon",price:"24.80 €"},
-{name:"Bœuf façon thaï",desc:"Boeuf, citronnelle, gombo, basilic, échalotes, courgettes, poivron et ail",price:"23.80 €"}
+["Bœuf façon du chef","25,80 €","Boeuf, trémelle, échalote, champignons, carotte, ail flambé au Cognac"],
+["Bœuf poivre noir","23,50 €","Bœuf, poivron, légumes sautés avec sauce poivre noir et ail"],
+["Bœuf échalotes","23,80 €","Bœuf, carotte, ciboulette, échalotes, ail"],
+["Bœuf piquante (Bouillon)","24,80 €","Tranches de bœuf, concombre et germes de soja dans un délicieux bouillon"],
+["Bœuf façon thaï","23,80 €","Boeuf, citronnelle, gombo, basilic, échalotes, courgettes, poivron et ail"]
 ]
 },
+
 {
 name:"Fruits de mer",
 items:[
-{name:"Scampis croustillants",desc:"Poivron, oignon, sel, poivre, ail et beurre",price:"20.50 €"},
-{name:"Scampis sur plaque chauffante",desc:"Scampis avec légumes variés, ail",price:"21.90 €"},
-{name:"Scampis façon Sichuan",desc:"Scampis, poivron, oignon, sel, poivre, ail et beurre",price:"20.90 €"},
-{name:"Scampis façon du chef",desc:"Scampis, céleri, carotte, tomate, bambou, champignons, ail",price:"22.90 €"},
-{name:"Scampis façon thaï",desc:"Scampis, citronnelle, basilic, poivron, gombo, échalotes, courgettes et ail",price:"20.50 €"},
-{name:"Cuisses de grenouilles au beurre (9pcs)",desc:"Beurre, oignons, champignon, ail, carotte, persil",price:"20.50 €"},
-{name:"Sole grillée au beurre façon du chef",desc:"Beurre, oignons, champignon, ail, carotte, persil",price:"28.50 €"}
+["Scampis croustillants","20,50 €","Poivron, oignon, sel, poivre, ail et beurre"],
+["Scampis sur plaque chauffante","21,90 €","Scampis avec légumes variés, ail"],
+["Scampis façon Sichuan","20,90 €","Scampis, poivron, oignon, sel, poivre, ail et beurre"],
+["Scampis façon du chef","22,90 €","Scampis, céleri, carotte, tomate, bambou, champignons, ail"],
+["Scampis façon thaï","20,50 €","Scampis, citronnelle, basilic, poivron, gombo, échalotes, courgettes et ail"],
+["Cuisses de grenouilles au beurre (9pcs)","20,50 €","Beurre, oignons, champignon, ail, carotte, persil"],
+["Sole grillée au beurre façon du chef","28,50 €","Beurre, oignons, champignon, ail, carotte, persil"]
 ]
 },
+
 {
 name:"Canard",
 items:[
-{name:"Canard pékinois",desc:"Canard pékinois servi avec des crêpes, concombre, poireau et sauce pour canard",price:"24.80 €"},
-{name:"Canard façon du chef",desc:"Canard, légumes, céleri, bambou, champagne, tomate",price:"24.80 €"},
-{name:"Canard à l'orange",desc:"Chou mariné, canard, sauce à l'orange goût sucré",price:"23.20 €"},
-{name:"Canard basilic thaï",desc:"Canard, citronnelle, basilic, ail, poivron, échalote, courgette et gombo",price:"23.80 €"}
+["Canard pékinois","24,80 €","Canard pékinois servi avec des crêpes, concombre, poireau et sauce pour canard"],
+["Canard façon du chef","24,80 €","Canard, légumes céleri, bambou, champagne, tomate"],
+["Canard à l'orange","23,20 €","Chou mariné, canard, sauce à l'orange goût sucré"],
+["Canard basilic thaï","23,80 €","Canard, citronnelle, basilic, ail, poivron, échalote, courgette et gombo"]
 ]
 },
+
 {
 name:"Riz",
 items:[
-{name:"Riz aux légumes",desc:"Carottes, petit pois",price:"14.50 €"},
-{name:"Riz au poulet",desc:"Œuf, carotte, petit pois et poulet",price:"14.80 €"},
-{name:"Riz au boeuf",desc:"Œuf, carottes, petit pois et boeuf",price:"15.80 €"},
-{name:"Riz aux scampis",desc:"Œuf, carottes, petit pois et scampis",price:"16.80 €"}
+["Riz aux légumes","14,50 €","Carottes, petit pois"],
+["Riz au poulet","14,80 €","Oeuf, carotte, petit pois et poulet"],
+["Riz au boeuf","15,80 €","Oeuf, carottes, petit pois et boeuf"],
+["Riz aux scampis","16,80 €","Œuf, carottes, petit pois et scampis"]
 ]
 },
+
 {
 name:"Nouilles",
 items:[
-{name:"Nouilles aux légumes",desc:"Oignon, carotte, poireau, soja",price:"14.50 €"},
-{name:"Nouilles au poulet",desc:"Œuf, oignon, carotte, poireau, soja et poulet",price:"14.80 €"},
-{name:"Nouilles au boeuf",desc:"Œuf, oignon, carotte, poireau, soja et boeuf",price:"15.80 €"},
-{name:"Nouilles aux scampis",desc:"Œuf, oignon, carotte, poireau, soja et scampis",price:"16.80 €"},
-{name:"Nouilles Udon aux légumes",desc:"Oignon, carotte, poireau, soja, poivron",price:"15.50 €"}
+["Nouilles aux légumes","14,50 €","Oignon, carotte, poireau, soja"],
+["Nouilles au poulet","14,80 €","Œuf, oignon, carotte, poireau, soja et poulet"],
+["Nouilles au boeuf","15,80 €","Œuf, oignon, carotte, poireau, soja et boeuf"],
+["Nouilles aux scampis","16,80 €","Œuf, oignon, carotte, poireau, soja et scampis"],
+["Nouilles Udon aux légumes","15,50 €","Oignon, carotte, poireau, soja, poivron"]
 ]
 },
+
 {
 name:"Marmite",
 items:[
-{name:"Marmite toufu",desc:"",price:"15.50 €"},
-{name:"Marmite légumes façon Thaï",desc:"",price:"16.50 €"},
-{name:"Marmite légumes frais sautés variés",desc:"",price:"15.50 €"}
+["Marmite toufu","15,50 €",""],
+["Marmite légumes façon Thaï","16,50 €",""],
+["Marmite légumes frais sautés variés","15,50 €",""]
 ]
 },
+
 {
-name:"Fondue chinoise (Traditionelle)",
+name:"Fondue chinoise",
 items:[
-{name:"Commande en avance (Prix / pers)",desc:"Porc, boeuf, scampis, poulet, calamar, coquille st-jacque, raviolis, vermicelle, légumes et toufu",price:"38.00 €"}
+["Commande en avance (Prix / pers)","38,00 €","Porc, boeuf, scampis, poulet, calamar, coquille st-jacque, raviolis, vermicelle, légumes et toufu"]
 ]
 },
+
 {
 name:"Sushi - Nigiri",
 items:[
-{name:"NIGIRI Saumon",desc:"",price:"5.00 €"},
-{name:"NIGIRI Saumon mi-cuit",desc:"",price:"6.00 €"},
-{name:"NIGIRI Thon",desc:"",price:"6.00 €"},
-{name:"NIGIRI Thon mi-cuit",desc:"",price:"6.50 €"},
-{name:"NIGIRI Crevettes",desc:"",price:"5.50 €"},
-{name:"NIGIRI Avocat",desc:"",price:"5.00 €"},
-{name:"NIGIRI Poulpe",desc:"",price:"5.00 €"},
-{name:"NIGIRI Hokkigai",desc:"Oreille de Vénus",price:"5.50 €"},
-{name:"NIGIRI Anguille fumée",desc:"",price:"6.50 €"},
-{name:"NIGIRI Saint-jacque mi-cuit",desc:"",price:"7.50 €"}
+["NIGIRI Saumon","5,00 €",""],
+["NIGIRI Saumon mi-cuit","6,00 €",""],
+["NIGIRI Thon","6,00 €",""],
+["NIGIRI Thon mi-cuit","6,50 €",""],
+["NIGIRI Crevettes","5,50 €",""],
+["NIGIRI Avocat","5,00 €",""],
+["NIGIRI Poulpe","5,00 €",""],
+["NIGIRI Hokkigai","5,50 €","Oreille de Vénus"],
+["NIGIRI Anguille fumée","6,50 €",""],
+["NIGIRI Saint-jacque mi-cuit","7,50 €",""]
 ]
 },
+
 {
 name:"Sushi - Sashimi",
 items:[
-{name:"SASHIMI Saumon",desc:"",price:"7.50 €"},
-{name:"SASHIMI Saumon Mi-Cuit",desc:"",price:"8.00 €"},
-{name:"SASHIMI Thon",desc:"",price:"8.50 €"},
-{name:"SASHIMI Thon Mi-Cuit",desc:"",price:"9.00 €"},
-{name:"SASHIMI Poulpe",desc:"",price:"7.50 €"},
-{name:"SASHIMI Hokkigai",desc:"",price:"7.50 €"},
-{name:"SASHIMI Coquille St-jacque",desc:"",price:"8.00 €"}
+["SASHIMI Saumon","7,50 €",""],
+["SASHIMI Saumon Mi-Cuit","8,00 €",""],
+["SASHIMI Thon","8,50 €",""],
+["SASHIMI Thon Mi-Cuit","9,00 €",""],
+["SASHIMI Poulpe","7,50 €",""],
+["SASHIMI Hokkigai","7,50 €",""],
+["SASHIMI Coquille St-jacque","8,00 €",""]
 ]
 },
+
 {
 name:"Poke & Chirashi",
 items:[
-{name:"Poke Bowl Saumon Teriyaki",desc:"Saumon, avocat, coriandre, salade choux, sauce teriyaki, sésame",price:"21.80 €"},
-{name:"Poke Bowl Tuna Spicy",desc:"Thon, avocat, coriandre, salade choux, sauce spicy, sésame",price:"22.80 €"},
-{name:"Poke Bowl Poulet Frit",desc:"Poulet, avocat, coriandre, salade choux, mayonnaise japonais, sésame",price:"18.80 €"},
-{name:"Chirashi Mariné",desc:"Saumon, thon, concombre, sésame, coriandre, ciboulette, sauce vinaigrée, servi sur riz vinaigré",price:"23.80 €"}
+["Poke Bowl Saumon Teriyaki","21,80 €",""],
+["Poke Bowl Tuna Spicy","22,80 €",""],
+["Poke Bowl Poulet Frit","18,80 €",""],
+["Chirashi Mariné","23,80 €",""]
 ]
 },
+
 {
 name:"Hoso maki",
 items:[
-{name:"Maki Saumon",desc:"",price:"7.00 €"},
-{name:"Maki Thon",desc:"",price:"7.50 €"},
-{name:"Maki Avocat",desc:"",price:"5.50 €"},
-{name:"Maki Kappa",desc:"Concombre",price:"5.00 €"}
+["Maki Saumon","7,00 €",""],
+["Maki Thon","7,50 €",""],
+["Maki Avocat","5,50 €",""],
+["Maki Kappa","5,00 €",""]
 ]
 },
+
 {
 name:"Futo maki",
 items:[
-{name:"Futomaki Scampis",desc:"Scampis frits, avocat, concombre, mayonnaise japonaise, sauce teriyaki",price:"11.80 €"},
-{name:"Futomaki Eel",desc:"Anguille fumée, avocat, laitue, mayonnaise japonaise, sauce teriyaki",price:"12.50 €"},
-{name:"Futomaki Salmon",desc:"Saumon pané, avocat, laitue, mayonnaise japonaise, sauce teriyaki",price:"11.50 €"},
-{name:"Futomaki Asperge",desc:"Asperges frites, avocat, concombre, fraise, cheese",price:"10.50 €"},
-{name:"Futomaki Surimi",desc:"Surimi frits, avocat, laitue, mayonnaise japonaise, sauce teriyaki",price:"11.50 €"}
+["Futomaki Scampis","11,80 €",""],
+["Futomaki Eel","12,50 €",""],
+["Futomaki Salmon","11,50 €",""],
+["Futomaki Asperge","10,50 €",""],
+["Futomaki Surimi","11,50 €",""]
 ]
 },
+
 {
 name:"Spring roll",
 items:[
-{name:"SPRING Avocat cheese",desc:"Laitue, avocat, fromage philadelphia",price:"6.80 €"},
-{name:"SPRING Concombre chesse",desc:"Laitue, concombre, fromage philadelphia",price:"6.80 €"},
-{name:"SPRING Saumon avocat",desc:"Saumon, avocat, menthe, coriandre, laitue",price:"7.00 €"},
-{name:"SPRING Thon avocat",desc:"Saumon, avocat, menthe, coriandre, laitue",price:"7.80 €"},
-{name:"SPRING Saumon spicy",desc:"Laitue, tartare saumon épicé, ciboulette, avocat, sept épices",price:"9.50 €"},
-{name:"SPRING Thon spicy",desc:"Laitue, tartare thon épicé, ciboulette, concombre, sept épices",price:"9.80 €"},
-{name:"SPRING Tempura Ebi",desc:"Laitue, scampis frit, avocat, mangue, sept épices",price:"9.50 €"},
-{name:"SPRING Chicken avocat",desc:"Poulet pané, laitue, mayonnaise, avocat",price:"7.00 €"}
+["SPRING Avocat cheese","6,80 €",""],
+["SPRING Concombre chesse","6,80 €",""],
+["SPRING Saumon avocat","7,00 €",""],
+["SPRING Thon avocat","7,80 €",""],
+["SPRING Saumon spicy","9,50 €",""],
+["SPRING Thon spicy","9,80 €",""],
+["SPRING Tempura Ebi","9,50 €",""],
+["SPRING Chicken avocat","7,00 €",""]
 ]
 },
+
 {
 name:"California",
 items:[
-{name:"California classic",desc:"Surimi, avocat, sésame, masago",price:"8.80 €"},
-{name:"California Veggie",desc:"Tempura de courgette, avocat, concombre, oignons frits, sésame",price:"8.80 €"},
-{name:"California Pacific",desc:"Masago vert, saumon, avocat, sésame, sauce de chef",price:"9.80 €"},
-{name:"California Cheese",desc:"Saumon, fromage philadelphia et fraise, sésame, masago",price:"9.80 €"},
-{name:"California tempura",desc:"Scampis frits, mangue, mayonnaise, œuf de poisson, sésame",price:"10.80 €"},
-{name:"California Curry",desc:"Poulet frit, avocat, mayonnaise au curry, oignons frits",price:"8.80 €"},
-{name:"California TNT",desc:"Thon, avocat, sauce épicée, sésame, ciboulette",price:"9.80 €"},
-{name:"California Royal",desc:"Anguille fumée, avocat, mayonnaise, sauce teriyaki, masago, sésame",price:"10.80 €"},
-{name:"California Crispy",desc:"Saumon, oignons frits, concombre, sésame blanc",price:"9.80 €"},
-{name:"California sexy",desc:"Thon, concombre, cheese-Philadelphia, tobiko",price:"9.80 €"},
-{name:"California Ebi",desc:"Crevette, avocat, cheese-Philadelphia, mangue, masago",price:"10.80 €"},
-{name:"California thon cuit",desc:"Thon cuit, avocat",price:"9.80 €"}
+["California classic","8,80 €",""],
+["California Veggie","8,80 €",""],
+["California Pacific","9,80 €",""],
+["California Cheese","9,80 €",""],
+["California tempura","10,80 €",""],
+["California Curry","8,80 €",""],
+["California TNT","9,80 €",""],
+["California Royal","10,80 €",""],
+["California Crispy","9,80 €",""],
+["California sexy","9,80 €",""],
+["California Ebi","10,80 €",""],
+["California thon cuit","9,80 €",""]
 ]
 },
+
 {
 name:"Signature roll",
 items:[
-{name:"Aburi Roll",desc:"Saumon flambé mi-cuit, œuf de saumon, sésame, fromage philadelphia, saumon, ciboulette",price:"13.80 €"},
-{name:"Twin Roll",desc:"Saumon, thon mi-cuit, sauce du chef, mayonnaise, sésame, surimi frits, avocat",price:"13.80 €"},
-{name:"Ocean Roll",desc:"Anguille, ciboulette, Katsuobushi, cheese, asperges, avocats, surimi, sauce teriyaki",price:"13.80 €"},
-{name:"Tiger Roll",desc:"Saumon, mayonnaise épicée, sauce du chef, tartare saumon épicé, fromage philadelphia, concombre, surimi frits, masago",price:"13.80 €"},
-{name:"Dragon Roll",desc:"Anguille, avocat, masago, scampis frit, mangue, concombre",price:"13.80 €"},
-{name:"Season Roll",desc:"Saumon, crevette, thon, unagi, quatre œufs de poisson, scampis frit, avocat, surimi frit, mangue",price:"14.80 €"},
-{name:"Hawaii Roll",desc:"Mangue, wakame, tempura de courgette, avocat, concombre",price:"12.80 €"},
-{name:"Chicken César",desc:"Mangue, chips, poulet frit, laitue, parmesan, sauce caesar",price:"12.80 €"},
-{name:"Spide Roll",desc:"Avocat, feuille de soja, œufs de poisson, crabe entier frit, concombre, cébette, mayo épicée",price:"13.80 €"},
-{name:"Volcano Roll",desc:"Tartare thon épicé, mayonnaise épicée, thon, ciboulette, mayonnaise scampis frits et avocat",price:"13.80 €"},
-{name:"Saumon cheese Roll",desc:"Saumon, fromage philadelphia, riz, masago",price:"12.80 €"},
-{name:"Tamago Roll",desc:"Feuille d’omelette aux sésames grillés, scampis frit, mayonnaise japonaise, avocat, masago",price:"13.50 €"},
-{name:"St-jacque Roll",desc:"St-jacque, fromage, vermicelles frits, mayonnaise, asperge, scampis, sauce spicy",price:"13.80 €"}
+["Aburi Roll","13,80 €",""],
+["Twin Roll","13,80 €",""],
+["Ocean Roll","13,80 €",""],
+["Tiger Roll","13,80 €",""],
+["Dragon Roll","13,80 €",""],
+["Season Roll","14,80 €",""],
+["Hawaii Roll","12,80 €",""],
+["Chicken César","12,80 €",""],
+["Spide Roll","13,80 €",""],
+["Volcano Roll","13,80 €",""],
+["Saumon cheese Roll","12,80 €",""],
+["Tamago Roll","13,50 €",""],
+["St-jacque Roll","13,80 €",""]
 ]
 },
+
 {
 name:"Hot Roll",
 items:[
-{name:"HOT Dinamique",desc:"Saumon, avocat, mayonnaise japonaise, sauce du chef",price:"11.80 €"},
-{name:"HOT Chicken",desc:"Poulet frit, avocat, mangue, mayonnaise spicy",price:"10.80 €"},
-{name:"HOT Spicy crab",desc:"Spicy surimi, avocat, concombre, sauce teriyaki",price:"12.80 €"},
-{name:"HOT FUJI",desc:"Tempura scampis, saumon, cheese, fraise",price:"12.80 €"},
-{name:"HOT Veggie",desc:"Végétarien",price:"10.80 €"}
+["HOT Dinamique","11,80 €",""],
+["HOT Chicken","10,80 €",""],
+["HOT Spicy crab","12,80 €",""],
+["HOT FUJI","12,80 €",""],
+["HOT Veggie","10,80 €",""]
 ]
 },
+
 {
 name:"Temaki",
 items:[
-{name:"TEMAKI Saumon et avocat",desc:"Saumon, avocat",price:"6.00 €"},
-{name:"TEMAKI Thon et avocat",desc:"Thon, avocat",price:"6.50 €"},
-{name:"TEMAKI Chicken fried",desc:"Poulet frit, avocat, mayonnaise, sauce teriyaki",price:"6.00 €"},
-{name:"TEMAKI Philadephia",desc:"Saumon, philadelphia, masago",price:"6.50 €"},
-{name:"TEMAKI Tempura",desc:"Scampis frit, avocat, mayonnaise japonaise, sésame",price:"6.50 €"},
-{name:"TEMAKI Veggie",desc:"Asperge panée frite, avocat, concombre, mangue, sauce du chef",price:"6.00 €"},
-{name:"TEMAKI Unagi",desc:"Anguille fumée, avocat, sauce du chef",price:"6.50 €"},
-{name:"TEMAKI Ikura",desc:"Œuf de saumon",price:"7.50 €"}
+["TEMAKI Saumon et avocat","6,00 €",""],
+["TEMAKI Thon et avocat","6,50 €",""],
+["TEMAKI Chicken fried","6,00 €",""],
+["TEMAKI Philadephia","6,50 €",""],
+["TEMAKI Tempura","6,50 €",""],
+["TEMAKI Veggie","6,00 €",""],
+["TEMAKI Unagi","6,50 €",""],
+["TEMAKI Ikura","7,50 €",""]
 ]
 },
+
 {
 name:"Plateau",
 items:[
-{name:"Plateau Veggie",desc:"20 pièces de maki végétariens",price:"24.00 €"},
-{name:"Plateau MAKI",desc:"22 pièces de maki variés",price:"27.00 €"},
-{name:"Plateau NIGIRI",desc:"18 pièces de nigiri variés",price:"30.00 €"},
-{name:"Plateau SUSHI",desc:"22 pièces de maki et nigiri variés",price:"27.00 €"},
-{name:"Plateau TATAKI",desc:"24 pièces de mi-cuit variés",price:"30.00 €"},
-{name:"Plateau Sashimi",desc:"26 pièces de sashimi assortiment, sans riz",price:"34.00 €"},
-{name:"Plateau mixte (S)",desc:"Sushi, sashimi et maki variés pour 1 pers",price:"32.00 €"},
-{name:"Plateau mixte (M)",desc:"Sushi, sashimi et maki variés pour 2 pers",price:"62.00 €"},
-{name:"Plateau mixte (L)",desc:"Sushi, sashimi et maki variés pour 3 pers",price:"90.00 €"}
+["Plateau Veggie","24,00 €",""],
+["Plateau MAKI","27,00 €",""],
+["Plateau NIGIRI","30,00 €",""],
+["Plateau SUSHI","27,00 €",""],
+["Plateau TATAKI","30,00 €",""],
+["Plateau Sashimi","34,00 €","26 pièces de sashimi, assortiment sans riz"],
+["Plateau mixte (S)","32,00 €","Sushi, sashimi et maki variés pour 1 personne"],
+["Plateau mixte (M)","62,00 €","Sushi, sashimi et maki variés pour 2 personnes"],
+["Plateau mixte (L)","90,00 €","Sushi, sashimi et maki variés pour 3 personnes"]
 ]
 }
+
 ];
 
-const menuList=document.getElementById("menuList");
-const catbar=document.getElementById("catbar");
-const search=document.getElementById("search");
+/* =========================
+   MENU RENDER
+========================= */
 
-let activeCat="Toutes";
+const menuContainer = document.getElementById("menuContainer");
+const filters = document.getElementById("filters");
+const search = document.getElementById("menuSearch");
+const noResults = document.getElementById("noResults");
 
-function escapeHTML(s){
-return s.replace(/[&<>"']/g,m=>({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-}[m]));
+let currentFilter = "all";
+
+function createFilters(){
+
+    const all = document.createElement("button");
+    all.className = "filter active";
+    all.textContent = "Tout";
+    all.dataset.filter = "all";
+    filters.appendChild(all);
+
+    menuData.forEach((category,index)=>{
+        const btn = document.createElement("button");
+        btn.className = "filter";
+        btn.textContent = category.name;
+        btn.dataset.filter = index;
+        filters.appendChild(btn);
+    });
+
+    filters.addEventListener("click",e=>{
+        const btn = e.target.closest(".filter");
+        if(!btn) return;
+
+        document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
+        btn.classList.add("active");
+
+        currentFilter = btn.dataset.filter;
+        renderMenu(search.value);
+    });
 }
 
-function renderCats(){
+function renderMenu(query=""){
 
-catbar.innerHTML="";
+    menuContainer.innerHTML="";
+    let visibleCount=0;
 
-const all=document.createElement("button");
+    menuData.forEach((category,index)=>{
 
-all.textContent="Toutes";
+        if(currentFilter !== "all" && String(index)!==String(currentFilter)) return;
 
-all.className=
-activeCat==="Toutes"
-?"active"
-:"";
+        const filteredItems = category.items.filter(item=>{
+            const full = (item[0]+" "+item[2]).toLowerCase();
+            return full.includes(query.toLowerCase());
+        });
 
-all.onclick=()=>{
-activeCat="Toutes";
-renderCats();
-renderMenu();
-};
+        if(!filteredItems.length) return;
 
-catbar.appendChild(all);
+        visibleCount++;
 
-menu.forEach(c=>{
+        const categoryEl=document.createElement("div");
+        categoryEl.className="menu-category";
 
-const b=document.createElement("button");
+        const head=document.createElement("button");
+        head.className="category-head";
+        head.innerHTML=`
+            <h3>${category.name}</h3>
+            <span>+</span>
+        `;
 
-b.textContent=c.name;
+        const body=document.createElement("div");
+        body.className="category-body";
 
-b.className=
-activeCat===c.name
-?"active"
-:"";
+        filteredItems.forEach(item=>{
 
-b.onclick=()=>{
-activeCat=c.name;
-renderCats();
-renderMenu();
-};
+            const el=document.createElement("div");
+            el.className="menu-item";
 
-catbar.appendChild(b);
+            el.innerHTML=`
+                <div class="item-info">
+                    <h4>${item[0]}</h4>
+                    ${item[2] ? `<p>${item[2]}</p>` : ""}
+                </div>
+                <div class="price">${item[1]}</div>
+            `;
 
-});
+            body.appendChild(el);
+        });
 
+        head.addEventListener("click",()=>{
+            categoryEl.classList.toggle("open");
+        });
+
+        categoryEl.appendChild(head);
+        categoryEl.appendChild(body);
+        menuContainer.appendChild(categoryEl);
+    });
+
+    noResults.style.display = visibleCount ? "none" : "block";
 }
 
-function renderMenu(){
-
-const q=(search.value||"")
-.toLowerCase()
-.trim();
-
-menuList.innerHTML="";
-
-const groups=
-activeCat==="Toutes"
-?menu
-:menu.filter(c=>c.name===activeCat);
-
-groups.forEach(c=>{
-
-const filtered=c.items.filter(i=>
-(i.name+" "+i.desc+" "+c.name)
-.toLowerCase()
-.includes(q)
-);
-
-if(!filtered.length)return;
-
-const h=document.createElement("div");
-
-h.className="category-title";
-
-h.textContent=c.name;
-
-menuList.appendChild(h);
-
-filtered.forEach(i=>{
-
-const el=document.createElement("article");
-
-el.className="menu-item";
-
-el.innerHTML=`
-
-<div class="menu-top">
-
-<div class="menu-name">
-${escapeHTML(i.name)}
-</div>
-
-<div class="price">
-${escapeHTML(i.price)}
-</div>
-
-</div>
-
-${i.desc
-?`<div class="desc">${escapeHTML(i.desc)}</div>`
-:""}
-
-`;
-
-menuList.appendChild(el);
-
-});
-
-});
-
-if(!menuList.children.length){
-
-menuList.innerHTML=`
-<div class="card"
-style="grid-column:1/-1">
-Aucun plat trouvé.
-</div>
-`;
-
-}
-
-}
-
-renderCats();
+createFilters();
 renderMenu();
 
-search.addEventListener("input",renderMenu);
-
-document
-.getElementById("reservationForm")
-.addEventListener("submit",e=>{
-
-e.preventDefault();
-
-document
-.getElementById("toast")
-.style.display="block";
-
-setTimeout(()=>{
-document
-.getElementById("toast")
-.style.display="none";
-},3500);
-
-e.target.reset();
-
+search.addEventListener("input",()=>{
+    renderMenu(search.value);
 });
 
-const observer=
-new IntersectionObserver(
-entries=>{
-entries.forEach(e=>{
-if(e.isIntersecting)
-e.target.classList.add("visible");
-});
-},
-{threshold:.12}
-);
+/* =========================
+   NAV
+========================= */
 
-document
-.querySelectorAll(".reveal")
-.forEach(x=>observer.observe(x));
+const nav=document.getElementById("nav");
 
-const mobileModal=
-document.getElementById("mobileModal");
-
-document
-.getElementById("mobileMenu")
-.onclick=()=>{
-mobileModal.classList.add("open");
-};
-
-document
-.getElementById("closeMobile")
-.onclick=()=>{
-mobileModal.classList.remove("open");
-};
-
-mobileModal
-.querySelectorAll("a")
-.forEach(a=>{
-a.onclick=()=>{
-mobileModal.classList.remove("open");
-};
+window.addEventListener("scroll",()=>{
+    if(window.scrollY>60){
+        nav.classList.add("scrolled");
+    }else{
+        nav.classList.remove("scrolled");
+    }
 });
 
-document
-.getElementById("lang")
-.addEventListener("change",e=>{
+/* =========================
+   MOBILE
+========================= */
 
-const lang=e.target.value;
+const menuBtn=document.getElementById("menuBtn");
+const mobileMenu=document.getElementById("mobileMenu");
+const mobileClose=document.getElementById("mobileClose");
 
-const labels={
+menuBtn.addEventListener("click",()=>{
+    mobileMenu.classList.add("open");
+    document.body.style.overflow="hidden";
+});
+
+mobileClose.addEventListener("click",()=>{
+    mobileMenu.classList.remove("open");
+    document.body.style.overflow="";
+});
+
+document.querySelectorAll(".mobile-links a").forEach(link=>{
+    link.addEventListener("click",()=>{
+        mobileMenu.classList.remove("open");
+        document.body.style.overflow="";
+    });
+});
+
+/* =========================
+   LANGUAGE
+========================= */
+
+const translations={
 
 fr:{
+reservation:"Réserver",
 menu:"Menu",
-res:"Réserver une table"
+experience:"Expérience",
+gallery:"Galerie"
 },
 
 en:{
+reservation:"Reserve",
 menu:"Menu",
-res:"Book a table"
+experience:"Experience",
+gallery:"Gallery"
 },
 
 de:{
+reservation:"Reservieren",
 menu:"Speisekarte",
-res:"Tisch reservieren"
+experience:"Erlebnis",
+gallery:"Galerie"
 }
 
 };
 
-document
-.querySelector('a[href="#menu"]')
-.textContent=labels[lang].menu;
+document.querySelectorAll(".lang button").forEach(button=>{
 
-document
-.querySelector('a[href="#reservation"]')
-.textContent=labels[lang].res;
+    button.addEventListener("click",()=>{
 
+        document.querySelectorAll(".lang button")
+            .forEach(btn=>btn.classList.remove("active"));
+
+        button.classList.add("active");
+
+        const lang=button.dataset.lang;
+
+        document.querySelectorAll("[data-fr]").forEach(el=>{
+            const value=el.dataset[lang];
+            if(value) el.textContent=value;
+        });
+
+        localStorage.setItem("mandarine-language",lang);
+    });
+
+});
+
+const savedLang=localStorage.getItem("mandarine-language");
+
+if(savedLang){
+    const langButton=document.querySelector(`[data-lang="${savedLang}"]`);
+    if(langButton) langButton.click();
+}
+
+/* =========================
+   REVIEWS
+========================= */
+
+const reviews=document.querySelectorAll(".review");
+const dots=document.querySelectorAll(".review-dot");
+let reviewIndex=0;
+
+function showReview(index){
+
+    reviews.forEach((review,i)=>{
+        review.classList.toggle("active",i===index);
+    });
+
+    dots.forEach((dot,i)=>{
+        dot.classList.toggle("active",i===index);
+    });
+}
+
+dots.forEach((dot,index)=>{
+    dot.addEventListener("click",()=>{
+        reviewIndex=index;
+        showReview(reviewIndex);
+    });
+});
+
+setInterval(()=>{
+    reviewIndex=(reviewIndex+1)%reviews.length;
+    showReview(reviewIndex);
+},5500);
+
+/* =========================
+   FORM
+========================= */
+
+document.getElementById("reservationForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const message=document.getElementById("formMessage");
+
+    message.style.display="block";
+
+    this.querySelector(".form-submit").textContent="Demande envoyée";
+
+    setTimeout(()=>{
+        this.reset();
+        this.querySelector(".form-submit").textContent="Demander une réservation";
+    },2500);
+});
+
+/* =========================
+   REVEAL
+========================= */
+
+const observer=new IntersectionObserver(
+(entries)=>{
+    entries.forEach(entry=>{
+        if(entry.isIntersecting){
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+        }
+    });
+},
+{
+    threshold:.12
+});
+
+document.querySelectorAll(".reveal").forEach(el=>{
+    observer.observe(el);
+});
+
+/* =========================
+   LOADER
+========================= */
+
+window.addEventListener("load",()=>{
+
+    setTimeout(()=>{
+        document.querySelector(".loader").classList.add("hide");
+        document.body.classList.add("loaded");
+    },900);
+
+});
+
+/* =========================
+   SMOOTH ANCHORS
+========================= */
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+
+    anchor.addEventListener("click",function(e){
+
+        const target=document.querySelector(this.getAttribute("href"));
+
+        if(target){
+            e.preventDefault();
+
+            target.scrollIntoView({
+                behavior:"smooth",
+                block:"start"
+            });
+        }
+    });
 });
 
 </script>
